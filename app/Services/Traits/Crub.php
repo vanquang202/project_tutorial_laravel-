@@ -7,7 +7,7 @@ trait Crub{
 
      public function index()
     {
-        return view($this->views['list'], $this->getData());
+        return view($this->views['list'], $this->getDataIndex());
     }
 
     public function create()

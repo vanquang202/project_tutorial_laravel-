@@ -14,5 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome',[
+        'data' => \App\Models\Test::paginate(1)
+    ]);
 });
+Route::get('/create',function () {})->name('create');
+Route::get('/update/{id}',function () {})->name('update');
+Route::delete('/delete/{id}',function () {})->name('delete');
