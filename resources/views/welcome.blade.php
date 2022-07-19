@@ -25,6 +25,7 @@
             'name' => 'name',
         ],
     ]" :method="'POST'" :action="'/'"></x-form>
+
 </body>
 
 </html>
