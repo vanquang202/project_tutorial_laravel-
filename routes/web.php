@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome',[
-        'data' => \App\Models\Test::paginate(1)
-    ]);
+    return view('pages.index');
+    // return view('welcome',[
+    //     'data' => \App\Models\Test::paginate(1)
+    // ]);
 });
 
 Route::get('/create',function () {})->name('create');
