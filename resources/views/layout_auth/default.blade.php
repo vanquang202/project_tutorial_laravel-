@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+    @yield('css')
     <style>
         html * {
             font-family: 'Montserrat', sans-serif;
@@ -145,20 +146,8 @@
 </head>
 
 <body>
-
-
-    <div class="login-box">
-        <h2>Login Tutorial App </h2>
-        <a href="{{ route('login.redirect') . '?driver=facebook' }}" class="social-button" id="facebook-connect">
-            <span>Connect with Facebook</span></a>
-        <a href="{{ route('login.redirect') . '?driver=google' }}" class="social-button" id="google-connect">
-            <span>Connect with Google</span></a>
-        <a href="{{ route('login.redirect') . '?driver=github' }}" class="social-button" id="google-connect">
-            <span>Connect with Github</span></a>
-        {{-- <a href="#" class="social-button" id="twitter-connect"> <span>Connect with Twitter</span></a> --}}
-        {{-- <a href="#" class="social-button" id="linkedin-connect"> <span>Connect with LinkedIn</span></a> --}}
-    </div>
-
+    @yield('content')
+    @yield('js')
 </body>
 
 </html>
