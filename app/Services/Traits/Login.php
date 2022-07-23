@@ -14,23 +14,35 @@ trait Login
     public function callback()
     {
         try {
-            $user = ($this->socialite::driver(request()->session()->get('driver')))->stateless()->user();
-            $userLogin = User::where('email', $user->email)->first();
-            dd($user);
+
+            $driver_id = request()->session()->get('driver') . '_id';
+            $user = $this->socialite::driver(request()->session()->get('driver'))
+                ->stateless()
+                ->user();
+            $userCheck = User::where($driver_id,$user->id)
+                ->where('email', $user->email)
+                ->first();
             request()->session()->forget('driver');
-            if ($userLogin) {
-                auth()->login($userLogin);
-                return redirect('/dashboard');
-            } else {
-                $userLogin = User::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                ]);
-                auth()->login($userLogin);
-                return redirect('/dashboard');
-            }
+
+            return $this->checkUser($userCheck ,$user ,$driver_id);
         } catch (\Throwable $th) {
-            return redirect('/errors');
+            return abort(404);
+        }
+    }
+
+    private function checkUser($userCheck ,$user ,$driver_id)
+    {
+         if ($userCheck) {
+                auth()->login($userCheck);
+                return redirect('/dashboard');
+        } else {
+            $userCheck = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                $driver_id => $user->id
+            ]);
+            auth()->login($userCheck);
+            return redirect('/dashboard');
         }
     }
 }

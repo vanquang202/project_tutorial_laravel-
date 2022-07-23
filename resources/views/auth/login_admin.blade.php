@@ -148,7 +148,7 @@
 
 
     <div class="login-box">
-        <h2>Social Login Button</h2>
+        <h2>Login Tutorial App </h2>
         <a href="{{ route('login.redirect') . '?driver=facebook' }}" class="social-button" id="facebook-connect">
             <span>Connect with Facebook</span></a>
         <a href="{{ route('login.redirect') . '?driver=google' }}" class="social-button" id="google-connect">
