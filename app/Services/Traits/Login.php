@@ -7,37 +7,27 @@ trait Login
 {
     public function redirect()
     {
-        dd(request()->all());
-        return $this->socialite::driver('google')->redirect('callback');
+        request()->session()->put('driver',request()->driver);
+        return $this->socialite::driver(request()->driver)->redirect(route('login.callback'));
     }
 
     public function callback()
     {
         try {
-
-            $user = ($this->socialite::driver($this->driver()))->stateless()->user();
-            $id_social = $this->driver() . '_id';
-            $findId = User::where($id_social, $user->id)->first();
-            unset($findId->password);
-            if ($findId) {
-                auth()->login($findId);
-                if($findId->hasOrRoles(['admin','auth'])) return redirect('/admin');
-                return redirect('/home');
-            } else {
-                if ($ac = User::where('email', $user->email)->first()) {
-                    $ac->$id_social = $user->id;
-                    $ac->save();
-                } else {
-
-                    $userLogin = User::create([
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        $id_social => $user->id,
-                        'password' => password_hash($user->id, PASSWORD_DEFAULT),
-                    ]);
-                }
+            $user = ($this->socialite::driver(request()->session()->get('driver')))->stateless()->user();
+            $userLogin = User::where('email', $user->email)->first();
+            dd($user);
+            request()->session()->forget('driver');
+            if ($userLogin) {
                 auth()->login($userLogin);
-                return redirect('/home');
+                return redirect('/dashboard');
+            } else {
+                $userLogin = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ]);
+                auth()->login($userLogin);
+                return redirect('/dashboard');
             }
         } catch (\Throwable $th) {
             return redirect('/errors');
