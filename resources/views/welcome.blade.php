@@ -18,13 +18,13 @@
 <body>
     {{-- <x-index :links="[]" :data="$data->toArray()" :route_create="'create'" :route_update="'update'" :route_delete="'delete'"></x-index> --}}
     {{-- {!! $data->links('pagination::bootstrap-4') !!} --}}
-    <x-form :dataForm="[
+    {{-- <x-form :dataForm="[
         [
             'label' => 'Name',
             'type' => 'text',
             'name' => 'name',
         ],
-    ]" :method="'POST'" :action="'/'"></x-form>
+    ]" :method="'POST'" :action="'/'"></x-form> --}}
 
 </body>
 

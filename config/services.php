@@ -31,4 +31,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+            'client_id' => '492481953658-71mfqrf913to28uihgsi0onsp7iiudjt.apps.googleusercontent.com',
+            'client_secret' => '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',
+            'redirect' => 'https://api.laravel.org/callback',
+    ],
+
+    'facebook' => [
+        'client_id' => "607824881048290",
+        'client_secret' => "cbf2c7f94183cffc8f3628fa1cc8140d",
+        'redirect' => 'https://api.laravel.org/callback',
+    ],
 ];
