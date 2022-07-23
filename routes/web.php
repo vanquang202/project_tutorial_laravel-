@@ -20,6 +20,9 @@ Route::get('/', function () {
     // ]);
 });
 
-Route::get('/create',function () {})->name('create');
-Route::get('/update/{id}',function () {})->name('update');
-Route::delete('/delete/{id}',function () {})->name('delete');
+Route::get('/create', function () {
+})->name('create');
+Route::get('/update/{id}', function () {
+})->name('update');
+Route::delete('/delete/{id}', function () {
+})->name('delete');
