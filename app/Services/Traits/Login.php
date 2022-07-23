@@ -7,53 +7,58 @@ trait Login
 {
     public function redirect()
     {
+        if($this->middleLogin())  request()->session()->put('flag_admin',true);
+        if(!$this->middleLogin())  request()->session()->put('flag_admin',false);
         request()->session()->put('driver',request()->driver);
-        return $this->socialite::driver(request()->driver)->redirect(route('login.callback'));
+        return $this->socialite::driver(request()->driver)->redirect(route('web.login.callback'));
     }
 
     public function callback()
     {
         try {
-
             $driver_id = request()->session()->get('driver') . '_id';
-            $user = $this->socialite::driver(request()->session()->get('driver'))
-                ->stateless()
-                ->user();
-
+            $user = $this->socialite::driver(request()->session()->get('driver'))->stateless()->user();
             $userCheck = User::where($driver_id,$user->id)
                 ->where('email', $user->email)
                 ->first();
-
             request()->session()->forget('driver');
-            if($this->middleLogin()) return $this->checkUserAdmin($userCheck ,$user ,$driver_id);
-            return $this->checkUser($userCheck ,$user ,$driver_id);
+            if( request()->session()->get('flag_admin')) return $this->checkUserAdmin($userCheck ,$user ,$driver_id);
+            return $this->checkUserLocal($userCheck ,$user ,$driver_id);
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             return abort(404);
         }
     }
 
     private function checkUserLocal($userCheck ,$user ,$driver_id)
     {
+        request()->session()->forget('flag_admin');
          if ($userCheck) {
                 auth()->login($userCheck);
-                return $this->redirect();
+                return redirect('/');
         } else {
-            $userCheck = User::create([
+            $userCheck = $this->user->addUser([
                 'name' => $user->name,
                 'email' => $user->email,
                 $driver_id => $user->id
             ]);
+            $userCheck->assignRole('student');
             auth()->login($userCheck);
-            return $this->redirect();
+            return redirect('/');
         }
     }
 
-     private function checkUserAdmin($userCheck ,$user ,$driver_id)
+    private function checkUserAdmin($userCheck ,$user ,$driver_id)
     {
-         if ($userCheck) {
+         request()->session()->forget('flag_admin');
+        if ($userCheck) {
+            if($userCheck ->hasAnyRole(['admin']))
+            {
                 auth()->login($userCheck);
-                return $this->redirect();
+                return $this->redirectAdmin();
+            }
+            return redirect(route('admin.auth.login'))->withErrors(['error' => "Tài khoản không đủ thẩm quyền !"]);
         }
-        return redirect('login')->withErrors(['error' => "Tài khoản chưa tồn tại !"]);
+        return redirect(route('admin.auth.login'))->withErrors(['error' => "Tài khoản chưa tồn tại !"]);
     }
 }
