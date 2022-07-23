@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,16 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('pages.index');
-    // return view('welcome',[
-    //     'data' => \App\Models\Test::paginate(1)
-    // ]);
 });
 
-Route::get('/create', function () {
-})->name('create');
-Route::get('/update/{id}', function () {
-})->name('update');
-Route::delete('/delete/{id}', function () {
-})->name('delete');
+Route::get('login',[AuthController::class , 'login']);
+
+Route::get('/redirect', [AuthController::class , 'redirect'])->name('login.redirect');
+Route::get('/callback', [AuthController::class , 'callback'])->name('login.callback');
+
+// Route::get('/create',function () {})->name('create');
+// Route::get('/update/{id}',function () {})->name('update');
+// Route::delete('/delete/{id}',function () {})->name('delete');
