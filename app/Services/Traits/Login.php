@@ -19,22 +19,24 @@ trait Login
             $user = $this->socialite::driver(request()->session()->get('driver'))
                 ->stateless()
                 ->user();
+
             $userCheck = User::where($driver_id,$user->id)
                 ->where('email', $user->email)
                 ->first();
-            request()->session()->forget('driver');
 
+            request()->session()->forget('driver');
+            if($this->middleLogin()) return $this->checkUserAdmin($userCheck ,$user ,$driver_id);
             return $this->checkUser($userCheck ,$user ,$driver_id);
         } catch (\Throwable $th) {
             return abort(404);
         }
     }
 
-    private function checkUser($userCheck ,$user ,$driver_id)
+    private function checkUserLocal($userCheck ,$user ,$driver_id)
     {
          if ($userCheck) {
                 auth()->login($userCheck);
-                return redirect('/dashboard');
+                return $this->redirect();
         } else {
             $userCheck = User::create([
                 'name' => $user->name,
@@ -42,7 +44,16 @@ trait Login
                 $driver_id => $user->id
             ]);
             auth()->login($userCheck);
-            return redirect('/dashboard');
+            return $this->redirect();
         }
+    }
+
+     private function checkUserAdmin($userCheck ,$user ,$driver_id)
+    {
+         if ($userCheck) {
+                auth()->login($userCheck);
+                return $this->redirect();
+        }
+        return redirect('login')->withErrors(['error' => "Tài khoản chưa tồn tại !"]);
     }
 }
