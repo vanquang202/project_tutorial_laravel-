@@ -14,10 +14,12 @@ class CreateClassTable extends Migration
     public function up()
     {
         Schema::create('class', function (Blueprint $table) {
-            $table->id('id');
+            $table->increments('id');
+            $table->integer('lecturer_id')->comment("id giảng viên");
             $table->string('name');
-            $table->integer('status')->default(1)->comment("0  : chưa kích hoạt ;1 :kích hoạt");
+            $table->integer('status')->comment("0");
             $table->integer('course_id');
+            $table->dateTime('date_open');
             $table->timestamps();
         });
     }
