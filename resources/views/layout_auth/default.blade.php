@@ -146,6 +146,11 @@
 </head>
 
 <body>
+    @if (auth()->check())
+        <script>
+            window.location = /;
+        </script>
+    @endif
     @yield('content')
     @yield('js')
 </body>

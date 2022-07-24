@@ -3,7 +3,7 @@
     <div class="login-box">
         <h2>Đăng nhập</h2>
         @error('error')
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger text-danger" role="alert">
                 {{ $message }}
             </div>
         @enderror
