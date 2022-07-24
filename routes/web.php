@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', function () {
-    return view('pages.index');
-});
-
 Route::get('/', function () {
     echo 'Login';
 });

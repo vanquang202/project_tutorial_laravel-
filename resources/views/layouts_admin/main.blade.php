@@ -13,7 +13,7 @@
     <meta property="og:type" content="article" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('assets/media/logos/poly-favicon.ico') }}" />
-    @include('layouts._style')
+    @include('layouts_admin._style')
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -60,14 +60,14 @@
                 </div>
                 <!--end::Brand-->
                 <!--begin::Aside menu-->
-                @include('layouts._aside')
+                @include('layouts_admin._aside')
                 <!--end::Aside menu-->
             </div>
             <!--end::Aside-->
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
-                @include('layouts._header')
+                @include('layouts_admin._header')
                 <!--end::Header-->
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -150,7 +150,7 @@
 
     <!--end::Modals-->
     <!--begin::Javascript-->
-    @include('layouts._script')
+    @include('layouts_admin._script')
     @yield('page-script')
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
