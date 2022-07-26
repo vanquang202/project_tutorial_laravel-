@@ -31,6 +31,12 @@
                                         @if (in_array($key, $medias))
                                             <img style="max-width: 130px" src="{{ asset('images/' . $item) }}"
                                                 alt="">
+                                        @elseif (in_array($key, $dataMuntipleStatus))
+                                            @foreach ($dataMuntipleStatusValue[$key] as $k1 => $v1)
+                                                @if ($k1 == $item)
+                                                    {{ $v1 }}
+                                                @endif
+                                            @endforeach
                                         @else
                                             @if (isset($links[$key]))
                                                 <a href="{{ $links[$key] }}">{{ $item }}</a>

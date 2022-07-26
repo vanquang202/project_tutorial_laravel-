@@ -2,6 +2,7 @@
 
 namespace App\Services\Traits;
 
+use App\Http\Requests\CrubRequest;
 use Illuminate\Http\Request;
 use Arr;
 
@@ -52,19 +53,19 @@ trait Crub
         return $data;
     }
 
-    public function store(Request $request)
+    public function store(CrubRequest $request)
     {
         $data = $this->getDataRequest($request->except(['_token']));
         $this->model::create($data);
         return redirect($this->views['router-list']);
     }
 
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         return view($this->views['edit'], $this->getDataEdit($id));
     }
 
-    public function update(Request $request, $id)
+    public function update(CrubRequest $request, $id)
     {
         $data = $this->getDataRequest($request->except(['_token']));
         $this->model::find($id)->update($data);
@@ -75,7 +76,6 @@ trait Crub
     public function destroy($id)
     {
         $this->model::find($id)->delete();
-
         return redirect($this->views['router-list']);
     }
 }

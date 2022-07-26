@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     use Crub;
+
     public function __construct(public Category $model)
     {
         $this->views = [
@@ -20,6 +21,7 @@ class CategoryController extends Controller
 
         ];
     }
+
     public function getDataIndex()
     {
         $categorys = $this->model::paginate(1);
@@ -28,10 +30,33 @@ class CategoryController extends Controller
 
     public function getDataCreate()
     {
+        return [];
     }
+
     public function getDataEdit($id)
     {
         $category = $this->model::find($id);
         return ['category' => $category];
+    }
+
+    public function getRules($method ,$id)
+    {
+        $rule = [];
+        switch ($method) :
+            case 'POST':
+                $rule = [
+                    'name' => 'required'
+                ];
+                break;
+            case 'PUT':
+                $rule = [
+                    'name' => 'required'
+                ];
+                break;
+            default:
+                break;
+            endswitch;
+
+        return $rule;
     }
 }

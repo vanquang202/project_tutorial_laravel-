@@ -1,0 +1,12 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use App\Services\Interfaces\IRuleInterface;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller implements IRuleInterface
+{
+    //
+}

@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Voucher;
+use App\Services\Interfaces\IRuleInterface;
 use Illuminate\Http\Request;
 use App\Services\Traits\Crub;
-class VoucherController extends Controller
+class VoucherController extends Controller implements IRuleInterface
 {
     use Crub;
     public function __construct(public Voucher $model)
@@ -34,5 +35,36 @@ class VoucherController extends Controller
     {
         $voucher = $this->model::find($id);
         return ['voucher' => $voucher];
+    }
+
+    public function getRules($method ,$id )
+    {
+        $rule = [];
+        switch ($method) :
+            case 'POST':
+                $rule = [
+                    'code' => 'required|unique:vouchers,code',
+                    'value' => 'required',
+                    'detail' => 'required',
+                    'type' => 'required',
+                    'status' => 'required',
+                    'dealine' => 'required|date',
+                ];
+                break;
+            case 'PUT':
+                $rule = [
+                    'code' => "required|unique:vouchers,code,$id,id",
+                    'value' => 'required',
+                    'detail' => 'required',
+                    'type' => 'required',
+                    'status' => 'required',
+                    'dealine' => 'required|date',
+                ];
+                break;
+            default:
+                break;
+            endswitch;
+
+        return $rule;
     }
 }
