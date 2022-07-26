@@ -19,8 +19,8 @@ trait Crub
 
     private function getDataRequest($data)
     {
-        if($data['images']) return $data = $this->getDataHasImage($data);
-        if($data['image']) return $data = $this->getDataHasImages($data);
+        if(isset($data['images'])) return $data = $this->getDataHasImage($data);
+        if(isset($data['image'])) return $data = $this->getDataHasImages($data);
         return $data;
     }
 
