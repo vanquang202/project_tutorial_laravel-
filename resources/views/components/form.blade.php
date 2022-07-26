@@ -4,7 +4,7 @@
         @csrf
         @method($method)
         @foreach ($dataForm as $data)
-            <div class="form-group">
+            <div class="form-group mb-5">
                 <label class="form-label">{{ $data['label'] ?? $dara['name'] }}</label>
 
                 @if ($data['type'] == 'textarea')
@@ -23,6 +23,9 @@
                             <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
                         @endforeach
                     </select>
+                @elseif ($data['type'] == 'images')
+                    <input type="file" multiple class="form-control"
+                        value="{{ $data['value'] ?? old($data['name']) }}"name="{{ $data['name'] }}">
                 @else
                     <input type="{{ $data['type'] }}" value="{{ $data['value'] ?? old($data['name']) }}"
                         name="{{ $data['name'] }}" class="form-control">

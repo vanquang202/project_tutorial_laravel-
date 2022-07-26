@@ -2,18 +2,23 @@
 
 use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);
 Route::prefix('course')->group(function () {
+    Route::get('', [CourseController::class, 'index'])->name('course.index');
+    Route::get('add', [CourseController::class, 'create'])->name('course.create');
+    Route::post('add', [CourseController::class, 'store'])->name('course.store');
+    Route::delete('delete/{id}', [CourseController::class, 'destroy'])->name('course.destroy');
+    Route::get('edit/{id}', [CourseController::class, 'edit'])->name('course.edit');
+    Route::put('edit/{id}', [CourseController::class, 'update'])->name('course.update');
 });
 Route::prefix('category')->group(function () {
     Route::get('', [CategoryController::class, 'index'])->name('category.index');
     Route::get('add', [CategoryController::class, 'create'])->name('category.create');
-    Route::post('add', [CategoryController::class, 'store'])->name(
-        'category.store'
-    );
+    Route::post('add', [CategoryController::class, 'store'])->name('category.store');
     Route::delete('delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
     Route::get('edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::put('edit/{id}', [CategoryController::class, 'update'])->name('category.update');

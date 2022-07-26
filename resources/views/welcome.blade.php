@@ -29,6 +29,13 @@
                 'type' => 'file',
                 'name' => 'name',
             ],
+
+            // multiple image
+             [
+                'label' => 'Name',
+                'type' => 'iamges',
+                'name' => 'name',
+            ],
             [
                 'label' => 'Name',
                 'type' => 'textarea',
