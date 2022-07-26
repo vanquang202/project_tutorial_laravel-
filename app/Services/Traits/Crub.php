@@ -1,25 +1,28 @@
 <?php
+
 namespace App\Services\Traits;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
-trait Crub{
+trait Crub
+{
 
-     public function index()
+    public function index()
     {
         return view($this->views['list'], $this->getDataIndex());
     }
 
     public function create()
     {
-        return view($this->views['create'], $this->getDataCreate());
+        return view($this->views['create'], $this->getDataCreate() ?? []);
     }
 
     public function store(Request $request)
     {
-        $this->data::create($request->all());
 
-        return redirect($this->views['list']);
+        $this->model::create($request->all());
+
+        return redirect($this->views['router-list']);
     }
 
     public function edit(Request $request, $id)
@@ -29,15 +32,15 @@ trait Crub{
 
     public function update(Request $request, $id)
     {
-        $this->data::find($id)->update($request->all());
+        $this->model::find($id)->update($request->all());
 
-        return redirect($this->views['list']);
+        return redirect($this->views['router-list']);
     }
 
     public function destroy($id)
     {
-        $this->data::find($id)->delete();
+        $this->model::find($id)->delete();
 
-        return redirect($this->views);
+        return redirect($this->views['router-list']);
     }
 }

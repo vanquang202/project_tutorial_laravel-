@@ -26,18 +26,3 @@ Route::get('callback', [AuthController::class, 'callback'])->name('login.callbac
 // Route::get('/create',function () {})->name('create');
 // Route::get('/update/{id}',function () {})->name('update');
 // Route::delete('/delete/{id}',function () {})->name('delete');
-Route::prefix('admin')->group(function () {
-    Route::get('', [DashboardController::class, 'index']);
-    Route::prefix('course')->group(function () {
-    });
-    Route::prefix('category')->group(function () {
-    });
-    Route::prefix('classroom')->group(function () {
-    });
-    Route::prefix('student')->group(function () {
-    });
-    Route::prefix('calendar')->group(function () {
-    });
-    Route::prefix('voucher')->group(function () {
-    });
-});

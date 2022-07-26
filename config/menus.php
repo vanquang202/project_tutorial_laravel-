@@ -19,20 +19,17 @@ return [
                     <!--end::Svg Icon-->
                 </span>
             <!--end::Svg Icon-->',
-        "name" => "Quản lý cuộc thi",
-
+        "name" => "Quản lý danh mục",
         "subs-menu" => [
             [
-                "name" => "Danh sách cuộc thi ",
-                "link" => "admin.contest.list",
+                "name" => "Danh sách danh mục ",
+                "link" => "admin.category.index",
                 "param" => "",
-
             ],
             [
-                "name" => "Thêm mới cuộc thi",
-                "link" => "admin.contest.create",
+                "name" => "Thêm mới danh mục ",
+                "link" => "admin.category.create",
                 "param" => "",
-
             ]
         ]
     ], // Cuoc thi
