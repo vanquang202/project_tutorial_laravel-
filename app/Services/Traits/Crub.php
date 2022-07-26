@@ -4,6 +4,7 @@ namespace App\Services\Traits;
 
 use Illuminate\Http\Request;
 use Arr;
+
 trait Crub
 {
     use UploadImage;
@@ -19,8 +20,9 @@ trait Crub
 
     private function getDataRequest($data)
     {
-        if(isset($data['images'])) return $data = $this->getDataHasImage($data);
-        if(isset($data['image'])) return $data = $this->getDataHasImages($data);
+        if (isset($data['image']) && isset($data['images'])) return $data = $this->getDataHasAllImage($data);
+        if (isset($data['images'])) return $data = $this->getDataHasImage($data);
+        if (isset($data['image'])) return $data = $this->getDataHasImages($data);
         return $data;
     }
 
@@ -37,11 +39,17 @@ trait Crub
         $arrayImages = [];
         foreach ($data['images'] as $image) {
             $nameImage = $this->upLoadImage($image);
-            if($nameImage) array_push($arrayImages , $nameImage);
+            if ($nameImage) array_push($arrayImages, $nameImage);
         }
         $dataResult = Arr::except($data, ['images']);
         $dataResult['images']  = json_encode($arrayImages);
         return $dataResult;
+    }
+
+    private function getDataHasAllImage($data)
+    {
+        $data = $this->getDataHasImages($this->getDataHasImage($data));
+        return $data;
     }
 
     public function store(Request $request)

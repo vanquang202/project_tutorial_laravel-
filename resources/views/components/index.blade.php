@@ -29,7 +29,8 @@
                                 @if (!in_array($key, $rolColume))
                                     <td>
                                         @if (in_array($key, $medias))
-                                            <img src="{{ $item }}" alt="">
+                                            <img style="max-width: 130px" src="{{ asset('images/' . $item) }}"
+                                                alt="">
                                         @else
                                             @if (isset($links[$key]))
                                                 <a href="{{ $links[$key] }}">{{ $item }}</a>

@@ -36,7 +36,7 @@
             ],
             [
                 'label' => 'Thời hạn voucher hết hạn  ',
-                'type' => 'datetime-local'
+                'type' => 'datetime-local',
                 'name' => 'dealine',
             ],
             [

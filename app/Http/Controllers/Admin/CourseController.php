@@ -23,4 +23,9 @@ class CourseController extends Controller
     public function getDataCreate()
     {
     }
+    public function   getDataIndex()
+    {
+        $courses = $this->model::paginate(1);
+        return  ['dataList' => $courses];
+    }
 }
