@@ -32,7 +32,7 @@ return [
                 "param" => "",
             ]
         ]
-    ], // Danh mục
+    ], // Danh muc khoa hoc
     [
         "icon" => '
             <!--begin::Svg Icon | path: icons/duotune/communication/com013.svg-->
@@ -51,22 +51,20 @@ return [
                         </svg>
                     <!--end::Svg Icon-->
                 </span>
-            <!--end::Svg Icon-->
-        ',
-        "name" => "Quản lý khóa học",
+            <!--end::Svg Icon-->',
+        "name" => "Quản lý voucher",
         "subs-menu" => [
             [
-                "name" => "Danh sách khóa học ",
-                "link" => "admin.course.index",
+                "name" => "Danh sách voucher",
+                "link" => "admin.voucher.index",
                 "param" => "",
             ],
             [
-                "name" => "Thêm mới khóa học ",
-                "link" => "admin.course.create",
+                "name" => "Thêm mới voucher ",
+                "link" => "admin.voucher.create",
                 "param" => "",
             ]
         ]
-    ], // Khóa học
-
+    ], // Danh muc khoa hoc
 
 ];

@@ -13,14 +13,16 @@
                     <select name="{{ $data['name'] }}" class="form-control form-select-solid" data-control="select2"
                         data-placeholder="Select an option" data-allow-clear="true" multiple="multiple">
                         @foreach ($data['options'] as $option)
-                            <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
+                            <option @selected($data['value'] == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
+                            </option>
                         @endforeach
                     </select>
                 @elseif ($data['type'] == 'select')
                     <select name="{{ $data['name'] }}" class="form-control form-select-solid" data-control="select2"
                         data-placeholder="Select an option" data-allow-clear="true">
                         @foreach ($data['options'] as $option)
-                            <option value="{{ $option['value'] }}">{{ $option['label'] }}</option>
+                            <option @selected($data['value'] == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
+                            </option>
                         @endforeach
                     </select>
                 @elseif ($data['type'] == 'images')

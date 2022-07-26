@@ -3,83 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
-
+use App\Services\Traits\Crub;
 class VoucherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    use Crub;
+    public function __construct(public Voucher $model)
     {
-        //
+        $this->views = [
+            'router-list' => route('admin.voucher.index'),
+            'list' => 'pages.admin.vouchers.index',
+            'create' => 'pages.admin.vouchers.add',
+            'edit' => 'pages.admin.vouchers.edit',
+        ];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getDataIndex()
     {
-        //
+        $vouchers = $this->model::paginate(1);
+        return  ['vouchers' => $vouchers];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getDataCreate()
     {
-        //
+        return [];
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function getDataEdit($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $voucher = $this->model::find($id);
+        return ['voucher' => $voucher];
     }
 }

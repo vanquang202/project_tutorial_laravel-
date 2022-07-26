@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);
@@ -30,6 +31,18 @@ Route::prefix('student')->group(function () {
 Route::prefix('calendar')->group(function () {
 });
 Route::prefix('voucher')->group(function () {
+    Route::resource('',VoucherController::class,[
+        "names" => [
+            "index" => "voucher.index",
+            "store" => "voucher.store",
+            "create" => "voucher.create",
+            "edit" => "voucher.edit",
+            "update" => "voucher.update",
+            "destroy" => "voucher.destroy",
+        ]
+    ])->parameters([
+        '' => 'id',
+    ]);
 });
 
 Route::get('login', [AuthController::class, 'login'])->name('auth.login');
