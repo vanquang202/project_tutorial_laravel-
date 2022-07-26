@@ -102,6 +102,35 @@
                 @endhasrole
             @endforeach --}}
 
+            @foreach (config('menus') as $menu)
+                {{-- @hasanyrole($menu['role']) --}}
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            {!! $menu['icon'] !!}
+                        </span>
+                        <span class="menu-title">{!! $menu['name'] !!}</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <div class="menu-sub menu-sub-accordion menu-active-bg">
+                        @foreach ($menu['subs-menu'] as $subMenu)
+                            {{-- @hasanyrole($subMenu['role']) --}}
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{ route($subMenu['link']) . $subMenu['param'] }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">{{ $subMenu['name'] }}</span>
+                                </a>
+                            </div>
+                            {{-- @endhasrole --}}
+                        @endforeach
+
+                    </div>
+                </div>
+                {{-- @endhasrole --}}
+            @endforeach
+
         </div>
         <!--end::Menu-->
     </div>

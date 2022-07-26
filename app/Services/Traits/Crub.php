@@ -1,43 +1,81 @@
 <?php
+
 namespace App\Services\Traits;
 
-use Illuminate\Support\Facades\Request;
+use App\Http\Requests\CrubRequest;
+use Illuminate\Http\Request;
+use Arr;
 
-trait Crub{
-
-     public function index()
+trait Crub
+{
+    use UploadImage;
+    public function index()
     {
         return view($this->views['list'], $this->getDataIndex());
     }
 
     public function create()
     {
-        return view($this->views['create'], $this->getDataCreate());
+        return view($this->views['create'], $this->getDataCreate() ?? []);
     }
 
-    public function store(Request $request)
+    private function getDataRequest($data)
     {
-        $this->data::create($request->all());
-
-        return redirect($this->views['list']);
+        if (isset($data['image']) && isset($data['images'])) return $data = $this->getDataHasAllImage($data);
+        if (isset($data['images'])) return $data = $this->getDataHasImage($data);
+        if (isset($data['image'])) return $data = $this->getDataHasImages($data);
+        return $data;
     }
 
-    public function edit(Request $request, $id)
+    private function getDataHasImage($data)
+    {
+        $nameImage = $this->upLoadImage($data['image']);
+        $dataResult = Arr::except($data, ['image']);
+        $dataResult['image']  = $nameImage;
+        return $dataResult;
+    }
+
+    private function getDataHasImages($data)
+    {
+        $arrayImages = [];
+        foreach ($data['images'] as $image) {
+            $nameImage = $this->upLoadImage($image);
+            if ($nameImage) array_push($arrayImages, $nameImage);
+        }
+        $dataResult = Arr::except($data, ['images']);
+        $dataResult['images']  = json_encode($arrayImages);
+        return $dataResult;
+    }
+
+    private function getDataHasAllImage($data)
+    {
+        $data = $this->getDataHasImages($this->getDataHasImage($data));
+        return $data;
+    }
+
+    public function store(CrubRequest $request)
+    {
+        $data = $this->getDataRequest($request->except(['_token']));
+        $this->model::create($data);
+        return redirect($this->views['router-list']);
+    }
+
+    public function edit($id)
     {
         return view($this->views['edit'], $this->getDataEdit($id));
     }
 
-    public function update(Request $request, $id)
+    public function update(CrubRequest $request, $id)
     {
-        $this->data::find($id)->update($request->all());
+        $data = $this->getDataRequest($request->except(['_token']));
+        $this->model::find($id)->update($data);
 
-        return redirect($this->views['list']);
+        return redirect($this->views['router-list']);
     }
 
     public function destroy($id)
     {
-        $this->data::find($id)->delete();
-
-        return redirect($this->views);
+        $this->model::find($id)->delete();
+        return redirect($this->views['router-list']);
     }
 }

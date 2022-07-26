@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Web\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,12 +19,9 @@ Route::get('/', function () {
     echo 'Login';
 });
 
-Route::get('login',[AuthController::class , 'login']);
-Route::get('redirect', [AuthController::class , 'redirect'])->name('login.redirect');
-
-
-
-Route::get('callback', [AuthController::class , 'callback'])->name('login.callback');
+Route::get('login', [AuthController::class, 'login']);
+Route::get('redirect', [AuthController::class, 'redirect'])->name('login.redirect');
+Route::get('callback', [AuthController::class, 'callback'])->name('login.callback');
 
 // Route::get('/create',function () {})->name('create');
 // Route::get('/update/{id}',function () {})->name('update');

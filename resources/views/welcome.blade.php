@@ -19,12 +19,35 @@
     {{-- <x-index :links="[]" :data="$data->toArray()" :route_create="'create'" :route_update="'update'" :route_delete="'delete'"></x-index> --}}
     {{-- {!! $data->links('pagination::bootstrap-4') !!} --}}
     {{-- <x-form :dataForm="[
-        [
-            'label' => 'Name',
-            'type' => 'text',
-            'name' => 'name',
-        ],
-    ]" :method="'POST'" :action="'/'"></x-form> --}}
+            [
+                'label' => 'Name',
+                'type' => 'text',
+                'name' => 'name',
+            ],
+            [
+                'label' => 'Name',
+                'type' => 'file',
+                'name' => 'name',
+            ],
+
+            // multiple image
+             [
+                'label' => 'Name',
+                'type' => 'iamges',
+                'name' => 'name',
+            ],
+            [
+                'label' => 'Name',
+                'type' => 'textarea',
+                'name' => 'name',
+            ],
+            [
+                'label' => 'Name',
+                'type' => 'selects',
+                'name' => 'name',
+                'options' => [['value' => 0, 'label' => 'Chưa kích hoạt'], ['value' => 1, 'label' => 'Kích hoạt']],
+            ],
+        ]" :method="'POST'" :action="'/'"></x-form> --}}
 
 </body>
 
