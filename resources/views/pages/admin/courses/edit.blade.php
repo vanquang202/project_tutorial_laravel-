@@ -1,17 +1,43 @@
 @extends('layouts_admin.main')
-@section('title', 'Chỉnh sửa danh mục')
-@section('page-title', 'Chỉnh sửa danh mục')
+@section('title', 'Chỉnh sửa khóa học')
+@section('page-title', 'Chỉnh sửa khóa học')
 @section('content')
     <div>
         <x-form :dataForm="[
             [
-                'label' => 'Tên danh mục',
+                'label' => 'Tên khóa học',
                 'type' => 'text',
                 'name' => 'name',
-                'value' => $category->name,
+                'value' => $data->name,
             ],
-        ]" :method="'PUT'" :action="route('admin.category.update', ['id' => $category->id])"></x-form>
+            [
+                'label' => 'Ảnh chính',
+                'type' => 'file',
+                'name' => 'image',
+                'value' => $data->image,
+            ],
+        
+            [
+                'label' => 'Giá khóa học',
+                'type' => 'number',
+                'name' => 'price',
+                'value' => $data->price,
+            ],
+            [
+                'label' => 'Mô tả',
+                'type' => 'textarea',
+                'name' => 'detail',
+                'value' => $data->detail,
+            ],
+            [
+                'label' => 'Trạng thái',
+                'type' => 'select',
+                'name' => 'status',
+                'options' => [['value' => 1, 'label' => 'Kích hoạt'], ['value' => 0, 'label' => 'Chưa kích hoạt']],
+            ],
+        ]" :method="'PUT'" :action="route('admin.course.update', ['id' => $data->id])"></x-form>
     </div>
+
 
 @endsection
 @section('page-script')

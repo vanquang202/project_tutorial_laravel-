@@ -19,23 +19,25 @@ trait Crub
         return view($this->views['create'], $this->getDataCreate() ?? []);
     }
 
-    private function getDataRequest($data)
+    private function getDataRequest($data, $dataModelExitsByUpdate = null)
     {
-        if (isset($data['image']) && isset($data['images'])) return $data = $this->getDataHasAllImage($data);
-        if (isset($data['images'])) return $data = $this->getDataHasImage($data);
-        if (isset($data['image'])) return $data = $this->getDataHasImages($data);
+        if (isset($data['image']) && isset($data['images'])) return $data = $this->getDataHasAllImage($data, $dataModelExitsByUpdate);
+        if (isset($data['images'])) return $data = $this->getDataHasImage($data, $dataModelExitsByUpdate);
+        if (isset($data['image'])) return $data = $this->getDataHasImages($data, $dataModelExitsByUpdate);
         return $data;
     }
 
-    private function getDataHasImage($data)
+    private function getDataHasImage($data, $dataModelExitsByUpdate = null)
     {
-        $nameImage = $this->upLoadImage($data['image']);
+        $dataImageModleExistByUpdate = null;
+        if($dataModelExitsByUpdate) $dataImageModleExistByUpdate = $dataModelExitsByUpdate->image;
+        $nameImage = $this->upLoadImage($data['image'], $dataImageModleExistByUpdate);
         $dataResult = Arr::except($data, ['image']);
         $dataResult['image']  = $nameImage;
         return $dataResult;
     }
 
-    private function getDataHasImages($data)
+    private function getDataHasImages($data, $dataModelExitsByUpdate = null)
     {
         $arrayImages = [];
         foreach ($data['images'] as $image) {
@@ -47,9 +49,15 @@ trait Crub
         return $dataResult;
     }
 
-    private function getDataHasAllImage($data)
+    private function getImageJsonDeCodeModelExitst($dataModelExitsByUpdate)
     {
-        $data = $this->getDataHasImages($this->getDataHasImage($data));
+        $images = json_decode($dataModelExitsByUpdate->images);
+        return $images;
+    }
+
+    private function getDataHasAllImage($data,$dataModelExitsByUpdate = null)
+    {
+        $data = $this->getDataHasImages($this->getDataHasImage($data,$dataModelExitsByUpdate),$dataModelExitsByUpdate);
         return $data;
     }
 
@@ -67,8 +75,9 @@ trait Crub
 
     public function update(CrubRequest $request, $id)
     {
-        $data = $this->getDataRequest($request->except(['_token']));
-        $this->model::find($id)->update($data);
+        $modelFindById = $this->model::find($id);
+        $data = $this->getDataRequest($request->except(['_token']), $modelFindById);
+        $modelFindById->update($data);
 
         return redirect($this->views['router-list']);
     }

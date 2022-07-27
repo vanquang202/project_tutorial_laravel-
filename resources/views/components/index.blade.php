@@ -1,5 +1,5 @@
-@props(['data', 'route_create', 'route_update', 'route_delete', 'links'])
 <div class="card card-flush p-4">
+    @props(['data', 'route_create', 'route_update', 'route_delete', 'links'])
     <div class=" d-flex justify-content-end align-content-end">
         <a class="btn btn-primary" href="{{ route($route_create) }}" role="button">Thêm mới</a>
     </div>
