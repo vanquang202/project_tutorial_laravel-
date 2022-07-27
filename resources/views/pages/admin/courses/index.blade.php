@@ -1,9 +1,9 @@
 @extends('layouts_admin.main')
-@section('title', 'Danh sách danh mục')
-@section('page-title', 'Danh sách danh mục')
+@section('title', 'Danh sách khóa học')
+@section('page-title', 'Danh sách khóa học')
 @section('content')
     <div>
-        <x-index :links="[]" :data="$dataList->toArray()" :route_create="'admin.category.create'" :route_update="'admin.category.edit'" :route_delete="'admin.category.destroy'">
+        <x-index :links="[]" :data="$dataList->toArray()" :route_create="'admin.course.create'" :route_update="'admin.course.edit'" :route_delete="'admin.course.destroy'">
         </x-index>
         <div class="mt-10">
 
