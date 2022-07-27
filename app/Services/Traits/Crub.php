@@ -84,7 +84,13 @@ trait Crub
 
     public function destroy($id)
     {
-        $this->model::find($id)->delete();
+        $modelFindById = $this->model::find($id);
+
+        if($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image,$modelFindById->images);
+        if($modelFindById->image) $this->checkImageExist($modelFindById->image);
+        if($modelFindById->images) $this->checkImageExist($modelFindById->image);
+
+        $modelFindById->delete();
         return redirect($this->views['router-list']);
     }
 }

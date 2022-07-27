@@ -15,10 +15,23 @@ trait UploadImage
         }
     }
 
-    private function checkImageExist($dataImageModleExistByUpdate)
+    private function checkImageExist($dataImageModleExistByUpdate,  $dataImageHasMultiple = [])
     {
-        if (file_exists(public_path('images') . '\\' . $dataImageModleExistByUpdate)) {
-            unlink(public_path('images') . '\\' . $dataImageModleExistByUpdate);
+        if(count($dataImageHasMultiple) == 0):
+            $this->unLinkImage($dataImageModleExistByUpdate);
+            return ;
+        else:
+        foreach($dataImageHasMultiple as $image)
+        {
+            $this->unLinkImage($image);
+        }
+        endif;
+    }
+
+    private function unLinkImage($image)
+    {
+        if (file_exists(public_path('images') . '\\' . $image)) {
+            unlink(public_path('images') . '\\' . $image);
         };
     }
 }
