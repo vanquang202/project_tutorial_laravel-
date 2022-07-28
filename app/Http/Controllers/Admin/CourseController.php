@@ -54,7 +54,7 @@ class CourseController extends Controller implements IRuleInterface
     }
     public function   getDataIndex()
     {
-        $courses = $this->model::paginate(1);
+        $courses = $this->model::paginate(5);
         $courses->makeHidden(['images', 'detail']);
         return  ['dataList' => $courses];
     }

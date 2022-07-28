@@ -15,3 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 /docker
+
+/database/factories/Trong

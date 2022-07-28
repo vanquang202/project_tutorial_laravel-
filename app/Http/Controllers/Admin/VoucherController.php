@@ -7,6 +7,7 @@ use App\Models\Voucher;
 use App\Services\Interfaces\IRuleInterface;
 use Illuminate\Http\Request;
 use App\Services\Traits\Crub;
+
 class VoucherController extends Controller implements IRuleInterface
 {
     use Crub;
@@ -22,7 +23,7 @@ class VoucherController extends Controller implements IRuleInterface
 
     public function getDataIndex()
     {
-        $vouchers = $this->model::paginate(1);
+        $vouchers = $this->model::paginate(5);
         return  ['vouchers' => $vouchers];
     }
 
@@ -37,10 +38,10 @@ class VoucherController extends Controller implements IRuleInterface
         return ['voucher' => $voucher];
     }
 
-    public function getRules($method ,$id )
+    public function getRules($method, $id)
     {
         $rule = [];
-        switch ($method) :
+        switch ($method):
             case 'POST':
                 $rule = [
                     'code' => 'required|unique:vouchers,code',
@@ -63,7 +64,7 @@ class VoucherController extends Controller implements IRuleInterface
                 break;
             default:
                 break;
-            endswitch;
+        endswitch;
 
         return $rule;
     }

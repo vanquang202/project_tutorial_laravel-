@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category as ModelsCategory;
+use App\Models\Voucher as ModelsVoucher;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class Category extends Seeder
+class Voucher extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class Category extends Seeder
      */
     public function run()
     {
-        ModelsCategory::factory(10)->create();
+        ModelsVoucher::factory(20)->create();
     }
 }
