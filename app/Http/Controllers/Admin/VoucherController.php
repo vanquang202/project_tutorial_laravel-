@@ -22,7 +22,9 @@ class VoucherController extends Controller implements IRuleInterface
 
     public function getDataIndex()
     {
-        $vouchers = $this->model::paginate(1);
+        $vouchers = $this->model->getDataIndexList([
+            'limit' => request('limit') ?? 10
+        ]);
         return  ['vouchers' => $vouchers];
     }
 
@@ -33,38 +35,32 @@ class VoucherController extends Controller implements IRuleInterface
 
     public function getDataEdit($id)
     {
-        $voucher = $this->model::find($id);
+        $voucher = $this->model->getDataModelById($id);
         return ['voucher' => $voucher];
     }
 
     public function getRules($method ,$id )
     {
         $rule = [];
+        $ruleCode = "";
         switch ($method) :
             case 'POST':
-                $rule = [
-                    'code' => 'required|unique:vouchers,code',
-                    'value' => 'required',
-                    'detail' => 'required',
-                    'type' => 'required',
-                    'status' => 'required',
-                    'dealine' => 'required|date',
-                ];
+                $ruleCode =  "required|unique:vouchers,code";
                 break;
             case 'PUT':
-                $rule = [
-                    'code' => "required|unique:vouchers,code,$id,id",
-                    'value' => 'required',
-                    'detail' => 'required',
-                    'type' => 'required',
-                    'status' => 'required',
-                    'dealine' => 'required|date',
-                ];
+                $ruleCode =  "required|unique:vouchers,code,$id,id";
                 break;
             default:
                 break;
             endswitch;
-
+        $rule = [
+            'code' => $ruleCode,
+            'value' => 'required',
+            'detail' => 'required',
+            'type' => 'required',
+            'status' => 'required',
+            'dealine' => 'required|date',
+        ];
         return $rule;
     }
 }
