@@ -29,31 +29,25 @@ class ClassroomController extends Controller implements IRuleInterface
     public function getRules($method, $id)
     {
         $rule = [];
+        $ruleCode = "";
         switch ($method):
             case 'POST':
-                $rule = [
-                    'name' => 'required|unique:class,name',
-                    'lecturer_id' => 'required',
-                    'course_id' => 'required',
-                    'detail' => 'required',
-                    'status' => 'required',
-                    'date_open' => 'required',
-                ];
+                $ruleCode = "required|unique:class,name";
                 break;
             case 'PUT':
-                $rule = [
-                    'name' => "required|unique:class,name.$id,id",
-                    'lecturer_id' => 'required',
-                    'course_id' => 'required',
-                    'detail' => 'required',
-                    'status' => 'required',
-                    'date_open' => 'required',
-                ];
-
+                $ruleCode = "required|unique:class,name,$id,id";
                 break;
             default:
                 break;
         endswitch;
+        $rule = [
+            'name'  =>  $ruleCode,
+            'lecturer_id' => 'required',
+            'course_id' => 'required',
+            'detail' => 'required',
+            'status' => 'required',
+            'date_open' => 'required',
+        ];
         return $rule;
     }
     public function getDataCreate()
