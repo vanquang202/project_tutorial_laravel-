@@ -11,7 +11,7 @@
                     <textarea class="form-control" name="{{ $data['name'] }}" id="" rows="3">{{ $data['value'] ?? old($data['name']) }}</textarea>
                 @elseif ($data['type'] == 'selects')
                     <select name="{{ $data['name'] }}" class="form-control form-select-solid" data-control="select2"
-                        data-placeholder="Select an option" data-allow-clear="true" multiple="multiple">
+                        data-placeholder="Vui lòng chọn !!" data-allow-clear="true" multiple="multiple">
                         @foreach ($data['options'] as $option)
                             <option @selected($data['value'] ?? -1 == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
                             </option>
@@ -19,7 +19,7 @@
                     </select>
                 @elseif ($data['type'] == 'select')
                     <select name="{{ $data['name'] }}" class="form-control form-select-solid" data-control="select2"
-                        data-placeholder="Select an option" data-allow-clear="true">
+                        data-placeholder="Vui lòng chọn !!" data-allow-clear="true">
                         @foreach ($data['options'] as $option)
                             <option @selected($data['value'] ?? -1 == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
                             </option>

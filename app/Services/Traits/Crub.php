@@ -30,7 +30,7 @@ trait Crub
     private function getDataHasImage($data, $dataModelExitsByUpdate = null)
     {
         $dataImageModleExistByUpdate = null;
-        if($dataModelExitsByUpdate) $dataImageModleExistByUpdate = $dataModelExitsByUpdate->image;
+        if ($dataModelExitsByUpdate) $dataImageModleExistByUpdate = $dataModelExitsByUpdate->image;
         $nameImage = $this->upLoadImage($data['image'], $dataImageModleExistByUpdate);
         $dataResult = Arr::except($data, ['image']);
         $dataResult['image']  = $nameImage;
@@ -45,7 +45,7 @@ trait Crub
             if ($nameImage) array_push($arrayImages, $nameImage);
         }
         $dataResult = Arr::except($data, ['images']);
-        $dataResult['images']  = json_encode( $arrayImages);
+        $dataResult['images']  = json_encode($arrayImages);
         return $dataResult;
     }
 
@@ -55,7 +55,7 @@ trait Crub
         return $images;
     }
 
-    private function getDataHasAllImage($data,$dataModelExitsByUpdate = null)
+    private function getDataHasAllImage($data, $dataModelExitsByUpdate = null)
     {
         $data = $this->getDataHasImages($this->getDataHasImage($data, $dataModelExitsByUpdate), $dataModelExitsByUpdate);
         return $data;
@@ -73,10 +73,12 @@ trait Crub
 
     public function store(CrubRequest $request)
     {
+        dd($request);
         $data = $this->getDataRequest($request->except(['_token']));
+
         $data = $this->model->storeDataModel($data);
-        if($data == null) return $this->redirectErrorNullModel([
-            'message'=>'Thêm mới thất bại !'
+        if ($data == null) return $this->redirectErrorNullModel([
+            'message' => 'Thêm mới thất bại !'
         ]);
         return $this->redirectSuccessModel([
             'route' => 'router-list',
@@ -95,8 +97,8 @@ trait Crub
         $modelFindById = $this->model->getDataModelById($id);
         $data = $this->getDataRequest($request->except(['_token']), $modelFindById);
         $modelFindById->updateDataModel($data);
-        if($modelFindById == null) return $this->redirectErrorNullModel([
-            'message'=>'Cập nhật thất bại !'
+        if ($modelFindById == null) return $this->redirectErrorNullModel([
+            'message' => 'Cập nhật thất bại !'
         ]);
 
         return $this->redirectSuccessModel([
@@ -109,9 +111,9 @@ trait Crub
     {
         $modelFindById = $this->model->getDataModelById($id);
 
-        if($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image, $modelFindById->images);
-        if($modelFindById->image) $this->checkImageExist($modelFindById->image);
-        if($modelFindById->images) $this->checkImageExist($modelFindById->image);
+        if ($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image, $modelFindById->images);
+        if ($modelFindById->image) $this->checkImageExist($modelFindById->image);
+        if ($modelFindById->images) $this->checkImageExist($modelFindById->image);
 
         $modelFindById->destroyDataModel();
 

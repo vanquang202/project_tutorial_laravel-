@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\VoucherController;
@@ -25,13 +26,19 @@ Route::prefix('category')->group(function () {
     Route::put('edit/{id}', [CategoryController::class, 'update'])->name('category.update');
 });
 Route::prefix('classroom')->group(function () {
+    Route::get('', [ClassroomController::class, 'index'])->name('classroom.index');
+    Route::get('add', [ClassroomController::class, 'create'])->name('classroom.create');
+    Route::post('add', [ClassroomController::class, 'store'])->name('classroom.store');
+    Route::delete('delete/{id}', [ClassroomController::class, 'destroy'])->name('classroom.destroy');
+    Route::get('edit/{id}', [ClassroomController::class, 'edit'])->name('classroom.edit');
+    Route::put('edit/{id}', [ClassroomController::class, 'update'])->name('classroom.update');
 });
 Route::prefix('student')->group(function () {
 });
 Route::prefix('calendar')->group(function () {
 });
 Route::prefix('voucher')->group(function () {
-    Route::resource('',VoucherController::class,[
+    Route::resource('', VoucherController::class, [
         "names" => [
             "index" => "voucher.index",
             "store" => "voucher.store",
