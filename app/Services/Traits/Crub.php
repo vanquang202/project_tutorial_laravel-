@@ -45,7 +45,7 @@ trait Crub
             if ($nameImage) array_push($arrayImages, $nameImage);
         }
         $dataResult = Arr::except($data, ['images']);
-        $dataResult['images']  = json_encode($arrayImages);
+        $dataResult['images']  = json_encode( $arrayImages);
         return $dataResult;
     }
 
@@ -57,15 +57,32 @@ trait Crub
 
     private function getDataHasAllImage($data,$dataModelExitsByUpdate = null)
     {
-        $data = $this->getDataHasImages($this->getDataHasImage($data,$dataModelExitsByUpdate),$dataModelExitsByUpdate);
+        $data = $this->getDataHasImages($this->getDataHasImage($data, $dataModelExitsByUpdate), $dataModelExitsByUpdate);
         return $data;
+    }
+
+    private function redirectErrorNullModel($data)
+    {
+        return redirect()->back()->withInput()->with('error', $data['message']);
+    }
+
+    private function redirectSuccessModel($data)
+    {
+        return redirect($this->views[$data['route']])->with('success', $data['message']);
     }
 
     public function store(CrubRequest $request)
     {
         $data = $this->getDataRequest($request->except(['_token']));
-        $this->model::create($data);
-        return redirect($this->views['router-list']);
+        $data = $this->model->storeDataModel($data);
+        if($data == null) return $this->redirectErrorNullModel([
+            'message'=>'Thêm mới thất bại !'
+        ]);
+        return $this->redirectSuccessModel([
+            'route' => 'router-list',
+            'message' => 'Thêm mới thành công',
+        ]);
+        // return redirect($this->views['router-list'])->with('success', 'Thêm mới thành công !');
     }
 
     public function edit($id)
@@ -75,22 +92,32 @@ trait Crub
 
     public function update(CrubRequest $request, $id)
     {
-        $modelFindById = $this->model::find($id);
+        $modelFindById = $this->model->getDataModelById($id);
         $data = $this->getDataRequest($request->except(['_token']), $modelFindById);
-        $modelFindById->update($data);
+        $modelFindById->updateDataModel($data);
+        if($modelFindById == null) return $this->redirectErrorNullModel([
+            'message'=>'Cập nhật thất bại !'
+        ]);
 
-        return redirect($this->views['router-list']);
+        return $this->redirectSuccessModel([
+            'route' => 'router-list',
+            'message' => 'Cập nhật thành công',
+        ]);
     }
 
     public function destroy($id)
     {
-        $modelFindById = $this->model::find($id);
+        $modelFindById = $this->model->getDataModelById($id);
 
-        if($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image,$modelFindById->images);
+        if($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image, $modelFindById->images);
         if($modelFindById->image) $this->checkImageExist($modelFindById->image);
         if($modelFindById->images) $this->checkImageExist($modelFindById->image);
 
-        $modelFindById->delete();
-        return redirect($this->views['router-list']);
+        $modelFindById->destroyDataModel();
+
+        return $this->redirectSuccessModel([
+            'route' => 'router-list',
+            'message' => 'Xóa bản ghi thành công',
+        ]);
     }
 }

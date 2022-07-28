@@ -24,11 +24,11 @@ class CrubRequest extends FormRequest
     public function rules()
     {
         $rule = [];
-        if(method_exists($this->route()->getController(),'getRules'))
+        if(method_exists($this->route()->getController(), 'getRules'))
             $rule = $this
-                ->route()
-                ->getController()
-                ->getRules($this->method(),$this->route()->id ?? 0);
+                        ->route()
+                        ->getController()
+                        ->getRules($this->method(),$this->route()->id ?? 0);
         return $rule;
 
     }
