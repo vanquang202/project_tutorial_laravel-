@@ -44,10 +44,10 @@ class ClassroomController extends Controller implements IRuleInterface
             'name'  =>  $ruleCode,
             'lecturer_id' => 'required',
             'course_id' => 'required',
-            'detail' => 'required',
             'status' => 'required',
             'date_open' => 'required',
         ];
+        // dd($rule);
         return $rule;
     }
     public function getDataCreate()
@@ -68,6 +68,12 @@ class ClassroomController extends Controller implements IRuleInterface
     public function getDataEdit($id)
     {
         $data = $this->model::find($id);
-        return ['data' => $data];
+        $courses = $this->course::where('status', 1)->get(['id as value', 'name as label']);
+        $users = $this->user::get(['id as value', 'name as label']);
+        return [
+            'courses' => $courses->toArray(),
+            'users' => $users->toArray(),
+            'data' => $data
+        ];
     }
 }
