@@ -45,7 +45,7 @@ trait Crub
             if ($nameImage) array_push($arrayImages, $nameImage);
         }
         $dataResult = Arr::except($data, ['images']);
-        $dataResult['images']  = json_encode($arrayImages);
+        $dataResult['images']  = json_encode( $arrayImages);
         return $dataResult;
     }
 
@@ -57,7 +57,7 @@ trait Crub
 
     private function getDataHasAllImage($data,$dataModelExitsByUpdate = null)
     {
-        $data = $this->getDataHasImages($this->getDataHasImage($data,$dataModelExitsByUpdate),$dataModelExitsByUpdate);
+        $data = $this->getDataHasImages($this->getDataHasImage($data, $dataModelExitsByUpdate), $dataModelExitsByUpdate);
         return $data;
     }
 
@@ -86,7 +86,7 @@ trait Crub
     {
         $modelFindById = $this->model::find($id);
 
-        if($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image,$modelFindById->images);
+        if($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image, $modelFindById->images);
         if($modelFindById->image) $this->checkImageExist($modelFindById->image);
         if($modelFindById->images) $this->checkImageExist($modelFindById->image);
 
