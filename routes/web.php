@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::get('login', [AuthController::class, 'login']);
 Route::get('redirect', [AuthController::class, 'redirect'])->name('login.redirect');
@@ -25,3 +25,6 @@ Route::get('callback', [AuthController::class, 'callback'])->name('login.callbac
 // Route::get('/create',function () {})->name('create');
 // Route::get('/update/{id}',function () {})->name('update');
 // Route::delete('/delete/{id}',function () {})->name('delete');
+
+
+Route::get('shop', [HomeController::class, 'shop'])->name('shop');
