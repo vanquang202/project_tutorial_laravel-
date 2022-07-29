@@ -3,7 +3,9 @@
 @section('page-title', 'Danh sách khóa học')
 @section('content')
     <div>
-        <x-index :links="[]" :data="$dataList->toArray()" :route_create="'admin.course.create'" :route_update="'admin.course.edit'" :route_delete="'admin.course.destroy'">
+        <x-index :links="[
+            'name' => 'admin.course.show',
+        ]" :data="$dataList->toArray()" :route_create="'admin.course.create'" :route_update="'admin.course.edit'" :route_delete="'admin.course.destroy'">
         </x-index>
         <div class="mt-10">
 

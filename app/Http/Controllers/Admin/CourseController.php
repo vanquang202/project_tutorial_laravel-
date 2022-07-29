@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 class CourseController extends Controller implements IRuleInterface
 {
     use Crub;
+
     public function __construct(public Course $model)
     {
         $this->views = [
@@ -18,9 +19,10 @@ class CourseController extends Controller implements IRuleInterface
             'list' => 'pages.admin.courses.index',
             'create' => 'pages.admin.courses.add',
             'edit' => 'pages.admin.courses.edit',
-
+            'detail' => 'pages.admin.courses.detail'
         ];
     }
+
     public function getRules($method, $id)
     {
         $rule = [];
@@ -49,18 +51,30 @@ class CourseController extends Controller implements IRuleInterface
 
         return $rule;
     }
+
     public function getDataCreate()
     {
+        return [];
     }
+
     public function   getDataIndex()
     {
         $courses = $this->model::paginate(5);
         $courses->makeHidden(['images', 'detail']);
         return  ['dataList' => $courses];
     }
+
     public function getDataEdit($id)
     {
         $data = $this->model::find($id);
         return ['data' => $data];
     }
+
+    public function show($id)
+    {
+        $course = $this->model->getDataModelById($id);
+        if(!$course) return redirect()->back()->with('error' , 'Không thể xem chi tiết của khóa học này !');
+        return view($this->views['detail'] , ['course' => $course]);
+    }
+
 }

@@ -61,8 +61,10 @@ class ClassroomController extends Controller implements IRuleInterface
     }
     public function   getDataIndex()
     {
-        $data = $this->model::paginate(5);
-        // $data->makeHidden(['images', 'detail']);
+        $data = $this->model->getDataIndexList([
+            'limit' => request('limit') ?? 10
+        ]);
+        $data->makeHidden(['course_id', 'lecturer_id']);
         return  ['dataList' => $data];
     }
     public function getDataEdit($id)

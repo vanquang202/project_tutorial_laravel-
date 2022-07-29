@@ -19,7 +19,7 @@ class Index extends Component
         'status'
     ];
 
-     public $dataMuntipleStatusValue = [
+    public $dataMuntipleStatusValue = [
         'type' => [
             0 => "Giảm giá theo phần trăm",
             1 => "Giảm giá theo tiền ",
@@ -28,6 +28,12 @@ class Index extends Component
             0 => "Không kích hoạt",
             1 => "Kích hoạt ",
         ]
+    ];
+
+    public $relationshipModel = [
+        'user' => 'name',
+        'lecturer' => 'name',
+        'course' => 'name'
     ];
 
     public function render()

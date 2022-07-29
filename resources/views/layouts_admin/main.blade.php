@@ -4,7 +4,7 @@
 
 <head>
     <base href="/">
-    <title>FPT Polytechnic - Cổng đánh giá năng lực sinh viên</title>
+    <title>FPT Polytechnic</title>
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
