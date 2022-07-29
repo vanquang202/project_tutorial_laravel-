@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DashboardController::class, 'index']);
 Route::prefix('course')->group(function () {
     Route::get('', [CourseController::class, 'index'])->name('course.index');
-    Route::get('{id}', [CourseController::class, 'show'])->name('course.show');
+    Route::get('show/{id}', [CourseController::class, 'show'])->name('course.show');
     Route::get('add', [CourseController::class, 'create'])->name('course.create');
     Route::post('add', [CourseController::class, 'store'])->name('course.store');
     Route::delete('delete/{id}', [CourseController::class, 'destroy'])->name('course.destroy');

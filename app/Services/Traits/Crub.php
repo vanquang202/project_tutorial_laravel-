@@ -16,7 +16,7 @@ trait Crub
 
     public function create()
     {
-        return view($this->views['create'], $this->getDataCreate() ?? []);
+        return view($this->views['create'], $this->getDataCreate());
     }
 
     private function getDataRequest($data, $dataModelExitsByUpdate = null)
