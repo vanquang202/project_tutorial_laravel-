@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImageRequest;
 use App\Models\Course;
 use App\Services\Interfaces\IRuleInterface;
 use App\Services\Traits\Crub;
+use App\Services\Traits\UploadImage;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller implements IRuleInterface
 {
-    use Crub;
+    use Crub,UploadImage;
 
     public function __construct(public Course $model)
     {
@@ -77,4 +79,41 @@ class CourseController extends Controller implements IRuleInterface
         return view($this->views['detail'] , ['course' => $course]);
     }
 
+
+    // Api
+
+    public function updateImageCourse(UploadImageRequest $r , $id)
+    {
+        return $this->uploadFile($r,$id);
+    }
+
+    private function uploadFile($r ,$id, $flagUpload = false)
+    {
+        if(!$flagUpload) $nameImageNew = $this->upLoadImage($r->image,$r->image_old);
+        if($flagUpload) $nameImageNew = $this->upLoadImage($r->image);
+        if(!$nameImageNew) return response()->json([
+            "status" => false,
+        ]);
+
+        $imagesNew = [$nameImageNew];
+        $course = $this->model->getDataModelById($id);
+        $images = json_decode($course->images);
+        foreach($images as $image)
+        {
+            if($flagUpload == false && $image == $r->image_old) continue;
+            array_push($imagesNew,$image);
+        }
+        $course->updateDataModel([
+            'images' => $imagesNew
+        ]);
+
+        return response()->json([
+            "status" => true,
+        ]);
+    }
+
+    public function uploadImageCourse(UploadImageRequest $r , $id)
+    {
+        return $this->uploadFile($r,$id,true);
+    }
 }
