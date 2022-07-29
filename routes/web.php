@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Web\Auth\AuthController;
+use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    echo 'Login';
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('login', [AuthController::class, 'login']);
 Route::get('redirect', [AuthController::class, 'redirect'])->name('login.redirect');
