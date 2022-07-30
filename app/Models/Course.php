@@ -16,9 +16,26 @@ class Course extends Model implements ICrubModelInterface
     // public $fillable = [];
     protected $guarded = [];
 
+    public function getDataListActive($params = [], $get = [])
+    {
+        if (count($get) > 0) {
+            $query =  $this->where('status', 1)->get($get)->take($params['limit'] ?? null);
+        } else {
+            $query =  $this->where('status', 1)->get()->take($params['limit'] ?? null);
+        }
+        return $query;
+    }
+
     public function getDataList($params = [])
     {
-        return $this->get()->take($params['limit']);
+        $query =  $this->where('status', 1)->limit($params['limit'] ?? null)->get();
+        return $query;
+    }
+
+    public function getDataListPaginate($params = [])
+    {
+        $query =  $this->paginate($params['limit'] ?? null);
+        return $query;
     }
 
     public function classRooms()

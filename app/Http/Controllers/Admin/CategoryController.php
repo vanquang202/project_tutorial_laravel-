@@ -25,7 +25,7 @@ class CategoryController extends Controller implements IRuleInterface
 
     public function getDataIndex()
     {
-        $categorys = $this->model::paginate(5);
+        $categorys = $this->model->getDataListPaginate(['limit' => 5]);
         return  ['categorys' => $categorys];
     }
 
@@ -36,7 +36,7 @@ class CategoryController extends Controller implements IRuleInterface
 
     public function getDataEdit($id)
     {
-        $category = $this->model::find($id);
+        $category = $this->model->getDataModelById($id);
         return ['category' => $category];
     }
 

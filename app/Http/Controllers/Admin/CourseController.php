@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller implements IRuleInterface
 {
-    use Crub,UploadImage;
+    use Crub, UploadImage;
 
     public function __construct(public Course $model)
     {
@@ -61,7 +61,7 @@ class CourseController extends Controller implements IRuleInterface
 
     public function   getDataIndex()
     {
-        $courses = $this->model::paginate(5);
+        $courses = $this->model->getDataListPaginate(['limit' => 5]);
         $courses->makeHidden(['images', 'detail']);
         return  ['dataList' => $courses];
     }
@@ -75,33 +75,32 @@ class CourseController extends Controller implements IRuleInterface
     public function show($id)
     {
         $course = $this->model->getDataModelById($id);
-        if(!$course) return redirect()->back()->with('error' , 'Không thể xem chi tiết của khóa học này !');
-        return view($this->views['detail'] , ['course' => $course]);
+        if (!$course) return redirect()->back()->with('error', 'Không thể xem chi tiết của khóa học này !');
+        return view($this->views['detail'], ['course' => $course]);
     }
 
 
     // Api
 
-    public function updateImageCourse(UploadImageRequest $r , $id)
+    public function updateImageCourse(UploadImageRequest $r, $id)
     {
-        return $this->uploadFile($r,$id);
+        return $this->uploadFile($r, $id);
     }
 
-    private function uploadFile($r ,$id, $flagUpload = false)
+    private function uploadFile($r, $id, $flagUpload = false)
     {
-        if(!$flagUpload) $nameImageNew = $this->upLoadImage($r->image,$r->image_old);
-        if($flagUpload) $nameImageNew = $this->upLoadImage($r->image);
-        if(!$nameImageNew) return response()->json([
+        if (!$flagUpload) $nameImageNew = $this->upLoadImage($r->image, $r->image_old);
+        if ($flagUpload) $nameImageNew = $this->upLoadImage($r->image);
+        if (!$nameImageNew) return response()->json([
             "status" => false,
         ]);
 
         $imagesNew = [$nameImageNew];
         $course = $this->model->getDataModelById($id);
         $images = json_decode($course->images);
-        foreach($images as $image)
-        {
-            if($flagUpload == false && $image == $r->image_old) continue;
-            array_push($imagesNew,$image);
+        foreach ($images as $image) {
+            if ($flagUpload == false && $image == $r->image_old) continue;
+            array_push($imagesNew, $image);
         }
         $course->updateDataModel([
             'images' => $imagesNew
@@ -112,8 +111,8 @@ class CourseController extends Controller implements IRuleInterface
         ]);
     }
 
-    public function uploadImageCourse(UploadImageRequest $r , $id)
+    public function uploadImageCourse(UploadImageRequest $r, $id)
     {
-        return $this->uploadFile($r,$id,true);
+        return $this->uploadFile($r, $id, true);
     }
 }

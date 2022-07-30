@@ -16,21 +16,21 @@ class Classroom extends Model
 
     public function getDataIndexList($params)
     {
-        return $this->with(['lecturer','course'])->paginate($params['limit']);
+        return $this->with(['lecturer', 'course'])->paginate($params['limit'] ?? null);
     }
 
     public function lecturer()
     {
-        return $this->belongsTo(User::class,'lecturer_id');
+        return $this->belongsTo(User::class, 'lecturer_id');
     }
 
     public function course()
     {
-        return $this->belongsTo(Course::class,'course_id');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     public function calendars()
     {
-        return $this->hasMany(Calendar::class,'class_id');
+        return $this->hasMany(Calendar::class, 'class_id');
     }
 }

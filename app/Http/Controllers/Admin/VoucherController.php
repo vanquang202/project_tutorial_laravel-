@@ -23,7 +23,7 @@ class VoucherController extends Controller implements IRuleInterface
 
     public function getDataIndex()
     {
-        $vouchers = $this->model::paginate(5);
+        $vouchers = $this->model->getDataIndexList(['limit' => 5]);
         return  ['vouchers' => $vouchers];
     }
 

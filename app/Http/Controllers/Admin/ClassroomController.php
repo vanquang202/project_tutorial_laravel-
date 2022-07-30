@@ -56,8 +56,9 @@ class ClassroomController extends Controller implements IRuleInterface
 
     public function getDataCreate()
     {
-        $courses = $this->course::where('status', 1)->get(['id as value', 'name as label']);
-        $users = $this->user::get(['id as value', 'name as label']);
+        $courses = $this->course->getDataListActive([], ['id as value', 'name as label']);
+        $users = $this->user->getDataList([], ['id as value', 'name as label']);
+
         return [
             'courses' => $courses->toArray(),
             'users' => $users->toArray(),
@@ -76,8 +77,8 @@ class ClassroomController extends Controller implements IRuleInterface
     public function getDataEdit($id)
     {
         $data = $this->model->getDataModelById($id);
-        $courses = $this->course::where('status', 1)->get(['id as value', 'name as label']);
-        $users = $this->user::get(['id as value', 'name as label']);
+        $courses = $this->course->getDataListActive([], ['id as value', 'name as label']);
+        $users = $this->user->getDataList([], ['id as value', 'name as label']);
         return [
             'courses' => $courses->toArray(),
             'users' => $users->toArray(),
@@ -87,20 +88,20 @@ class ClassroomController extends Controller implements IRuleInterface
 
     public function show($id)
     {
-        $classroom = $this->model->getDataModelById($id,[
-            'lecturer','course','calendars'
+        $classroom = $this->model->getDataModelById($id, [
+            'lecturer', 'course', 'calendars'
         ]);
 
         $calendars = $classroom->calendars()
-            ->with(['class_time','class'])
+            ->with(['class_time', 'class'])
             ->paginate(request()->limit ?? 10);
-        $calendars->makeHidden(['class_id','class_time_id']);
+        $calendars->makeHidden(['class_id', 'class_time_id']);
 
         $class_time = $this->class_time->getAll();
 
-        if(!$classroom || !$calendars) return redirect()->back()->with('error' , 'Không thể xem chi tiết của lớp học này !');
-        if($classroom->status == 0) return redirect()->back()->with('error' , 'Lớp học này đang ở trạng thái khóa !');
-        return view($this->views['detail'] , [
+        if (!$classroom || !$calendars) return redirect()->back()->with('error', 'Không thể xem chi tiết của lớp học này !');
+        if ($classroom->status == 0) return redirect()->back()->with('error', 'Lớp học này đang ở trạng thái khóa !');
+        return view($this->views['detail'], [
             'classroom' => $classroom,
             'calendars' => $calendars,
             'class_time' => $class_time

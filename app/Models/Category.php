@@ -18,9 +18,13 @@ class Category extends Model implements ICrubModelInterface
 
 
 
-    public function getDataList($params = [])
+    public function getDataList($params = [], $with = [])
     {
-        return $this->get();
+        return $this->with($with)->withCount($with)->get();
+    }
+    public function getDataListPaginate($params = [], $with = [])
+    {
+        return $this->with($with)->paginate($params['limit'] ?? null);
     }
     public function cousers()
     {

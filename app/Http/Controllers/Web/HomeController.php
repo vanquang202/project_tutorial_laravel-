@@ -20,16 +20,17 @@ class HomeController extends Controller
     {
         $courses = $this->course->getDataList(['limit' => 20]);
         $this->compact['courses'] =  $courses;
-
         return view('pages.web.home', $this->compact);
     }
     public function shop()
     {
         $courses = $this->course->getDataList(['limit' => 6]);
-        $categorys = $this->category->getDataList();
-
+        $categorys = $this->category->getDataList([], ['cousers']);
+        dd($categorys);
         $this->compact['courses'] =  $courses;
         $this->compact['categorys'] =  $categorys;
+
+
         return view('pages.web.shop', $this->compact);
     }
 }
