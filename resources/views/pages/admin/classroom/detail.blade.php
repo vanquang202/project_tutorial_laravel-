@@ -70,6 +70,7 @@
                                 'label' => 'Ngày học',
                                 'type' => 'date',
                                 'name' => 'date',
+                                'min' => $classroom->date_open,
                             ],
                             [
                                 'label' => 'Ghi chú lịch học ',
