@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCalendarsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateCalendarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('calendars', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('class_id');
-            $table->integer('class_time_id');
-            $table->string('detail');
+        Schema::create('class_time', function (Blueprint $table) {
+            $table->id('id');
+            $table->string('name');
+            $table->time('opening_hour')->comment("giờ bắt đầu học");
+            $table->time('closing_time')->comment("giờ kết thúc");
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateCalendarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calendars');
+        Schema::dropIfExists('class_time');
     }
-}
+};
