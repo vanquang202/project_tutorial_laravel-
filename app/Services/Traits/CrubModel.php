@@ -3,9 +3,9 @@ namespace App\Services\Traits;
 
 trait CrubModel
 {
-    public function getDataModelById($id)
+    public function getDataModelById($id,$with = [])
     {
-        $model = $this->find($id);
+        $model = $this->with($with)->find($id);
         return $model;
     }
 

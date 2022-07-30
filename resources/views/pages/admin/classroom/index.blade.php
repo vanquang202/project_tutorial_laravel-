@@ -3,10 +3,9 @@
 @section('page-title', 'Danh sách lớp học')
 @section('content')
     <div>
-        <x-index :data="$dataList->toArray()" :route_create="'admin.classroom.create'" :route_update="'admin.classroom.edit'" :route_delete="'admin.classroom.destroy'">
+        <x-index :links="['name' => 'admin.classroom.show']" :data="$dataList->toArray()" :route_create="'admin.classroom.create'" :route_update="'admin.classroom.edit'" :route_delete="'admin.classroom.destroy'">
         </x-index>
         <div class="mt-10">
-
             {{ $dataList->appends(request()->all())->links('pagination::bootstrap-4') }}
         </div>
     </div>

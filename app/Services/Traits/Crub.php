@@ -73,7 +73,7 @@ trait Crub
 
     public function store(CrubRequest $request)
     {
-        $data = $this->getDataRequest($request->except(['_token']));
+        $data = $this->getDataRequest($request->except(['_token','_method','id']));
 
         $data = $this->model->storeDataModel($data);
         if ($data == null) return $this->redirectErrorNullModel([

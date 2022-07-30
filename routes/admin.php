@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Auth\AuthController;
+use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\CourseController;
@@ -28,6 +29,7 @@ Route::prefix('category')->group(function () {
 });
 Route::prefix('classroom')->group(function () {
     Route::get('', [ClassroomController::class, 'index'])->name('classroom.index');
+    Route::get('show/{id}', [ClassroomController::class, 'show'])->name('classroom.show');
     Route::get('add', [ClassroomController::class, 'create'])->name('classroom.create');
     Route::post('add', [ClassroomController::class, 'store'])->name('classroom.store');
     Route::delete('delete/{id}', [ClassroomController::class, 'destroy'])->name('classroom.destroy');
@@ -37,6 +39,18 @@ Route::prefix('classroom')->group(function () {
 Route::prefix('student')->group(function () {
 });
 Route::prefix('calendar')->group(function () {
+    Route::resource('', CalendarController::class, [
+        "names" => [
+            "index" => "calendar.index",
+            "store" => "calendar.store",
+            "create" => "calendar.create",
+            "edit" => "calendar.edit",
+            "update" => "calendar.update",
+            "destroy" => "calendar.destroy",
+        ]
+    ])->parameters([
+        '' => 'id',
+    ]);
 });
 Route::prefix('voucher')->group(function () {
     Route::resource('', VoucherController::class, [

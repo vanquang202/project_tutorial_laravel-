@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
+use App\Models\ClassTime;
 use App\Models\Course;
 use App\Models\User;
 use App\Services\Interfaces\IRuleInterface;
@@ -16,16 +17,18 @@ class ClassroomController extends Controller implements IRuleInterface
     public function __construct(
         public Classroom $model,
         public Course $course,
-        public User $user
+        public User $user,
+        public ClassTime $class_time,
     ) {
         $this->views = [
             'router-list' => route('admin.classroom.index'),
             'list' => 'pages.admin.classroom.index',
             'create' => 'pages.admin.classroom.add',
             'edit' => 'pages.admin.classroom.edit',
-
+            'detail' => 'pages.admin.classroom.detail'
         ];
     }
+
     public function getRules($method, $id)
     {
         $rule = [];
@@ -50,6 +53,7 @@ class ClassroomController extends Controller implements IRuleInterface
         // dd($rule);
         return $rule;
     }
+
     public function getDataCreate()
     {
         $courses = $this->course::where('status', 1)->get(['id as value', 'name as label']);
@@ -59,6 +63,7 @@ class ClassroomController extends Controller implements IRuleInterface
             'users' => $users->toArray(),
         ];
     }
+
     public function   getDataIndex()
     {
         $data = $this->model->getDataIndexList([
@@ -67,9 +72,10 @@ class ClassroomController extends Controller implements IRuleInterface
         $data->makeHidden(['course_id', 'lecturer_id']);
         return  ['dataList' => $data];
     }
+
     public function getDataEdit($id)
     {
-        $data = $this->model::find($id);
+        $data = $this->model->getDataModelById($id);
         $courses = $this->course::where('status', 1)->get(['id as value', 'name as label']);
         $users = $this->user::get(['id as value', 'name as label']);
         return [
@@ -77,5 +83,27 @@ class ClassroomController extends Controller implements IRuleInterface
             'users' => $users->toArray(),
             'data' => $data
         ];
+    }
+
+    public function show($id)
+    {
+        $classroom = $this->model->getDataModelById($id,[
+            'lecturer','course','calendars'
+        ]);
+
+        $calendars = $classroom->calendars()
+            ->with(['class_time','class'])
+            ->paginate(request()->limit ?? 10);
+        $calendars->makeHidden(['class_id','class_time_id']);
+
+        $class_time = $this->class_time->getAll();
+
+        if(!$classroom || !$calendars) return redirect()->back()->with('error' , 'Không thể xem chi tiết của lớp học này !');
+        if($classroom->status == 0) return redirect()->back()->with('error' , 'Lớp học này đang ở trạng thái khóa !');
+        return view($this->views['detail'] , [
+            'classroom' => $classroom,
+            'calendars' => $calendars,
+            'class_time' => $class_time
+        ]);
     }
 }
