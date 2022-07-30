@@ -108,20 +108,7 @@
 
                         @foreach ($courses as $course)
                             <div class="item">
-                                <div class="block-4 text-center">
-                                    {{-- <figure class="block-4-image">
-                                        <img src="{{ asset('images/' . $course->image) }}" alt="Image placeholder"
-                                            class="img-fluid">
-                                    </figure> --}}
-                                    <div
-                                        style="background-image: url({{ asset('images/' . $course->image) }});height: 370px; width: 100%; background-position: center; background-repeat: no-repeat;background-size: cover;">
-                                    </div>
-                                    <div class="block-4-text p-4">
-                                        <h3><a href="#">{{ $course->name }}</a></h3>
-                                        <p class="mb-0">Finding perfect t-shirt</p>
-                                        <p class="text-primary font-weight-bold">{{ $course->price }}</p>
-                                    </div>
-                                </div>
+                                <x-card-couse :data="$course"></x-card-couse>
                             </div>
                         @endforeach
 

@@ -12,7 +12,7 @@
 
                 <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
                     <div class="site-logo">
-                        <a href="index.html" class="js-logo-clone">Shoppers</a>
+                        <a href="{{ route('web.home') }}" class="js-logo-clone">Shoppers</a>
                     </div>
                 </div>
 
@@ -40,7 +40,7 @@
     <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container">
             <ul class="site-menu js-clone-nav d-none d-md-block">
-                <li class="has-children active">
+                {{-- <li class="has-children active">
                     <a href="index.html">Home</a>
                     <ul class="dropdown">
                         <li><a href="#">Menu One</a></li>
@@ -63,9 +63,9 @@
                         <li><a href="#">Menu Two</a></li>
                         <li><a href="#">Menu Three</a></li>
                     </ul>
-                </li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="#">Catalogue</a></li>
+                </li> --}}
+                <li><a href="{{ route('web.home') }}">Home</a></li>
+                <li><a href="{{ route('web.shop') }}">Shop</a></li>
                 <li><a href="#">New Arrivals</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>

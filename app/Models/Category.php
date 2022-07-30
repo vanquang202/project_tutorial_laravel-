@@ -15,4 +15,15 @@ class Category extends Model implements ICrubModelInterface
     protected $primaryKey = "id";
     // public $fillable = ['name'];
     protected $guarded = [];
+
+
+
+    public function getDataList($params = [])
+    {
+        return $this->get();
+    }
+    public function cousers()
+    {
+        return $this->belongsToMany(Course::class, 'category_course', 'category_id', 'course_id');
+    }
 }

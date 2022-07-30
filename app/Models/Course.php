@@ -20,4 +20,14 @@ class Course extends Model implements ICrubModelInterface
     {
         return $this->get()->take($params['limit']);
     }
+
+    public function classRooms()
+    {
+        return $this->hasMany(Classroom::class,  'course_id');
+    }
+
+    public function categorys()
+    {
+        return $this->belongsToMany(Category::class, 'category_course', 'course_id', 'category_id');
+    }
 }

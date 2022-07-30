@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Web\Auth\AuthController;
+use App\Http\Controllers\Web\CourseController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -33,4 +33,7 @@ Route::get('test', function () {
     // $files = Storage::disk('public');
     $files = Storage::disk('public')->allFiles();
     dd($files);
+});
+Route::prefix('couser')->group(function () {
+    Route::get('{id}', [CourseController::class, 'detailCouse'])->name('couser.detail');
 });
