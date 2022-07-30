@@ -15,4 +15,9 @@ class Course extends Model implements ICrubModelInterface
     protected $primaryKey = "id";
     // public $fillable = [];
     protected $guarded = [];
+
+    public function getDataList($params = [])
+    {
+        return $this->get()->take($params['limit']);
+    }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -16,9 +17,18 @@ class CourseFactory extends Factory
      */
     public function definition()
     {
+
+        //         $input = array("Neo", "Morpheus", "Trinity", "Cypher", "Tank");
+        // $rand_keys = array_rand($input, 2);
+        // echo $input[$rand_keys[0]] . "\n";
+        // echo $input[$rand_keys[1]] . "\n";
+
+
+        $files = Storage::disk('public')->allFiles();
+        $key = array_rand($files);
         return [
             'name' => $this->faker->name,
-            'image' =>   $this->faker->imageUrl($width = 640, $height = 480, $category = "image"),
+            'image' => $files[$key],
             'images' => null,
             'status' => 1,
             'price' => rand(100000, 999999),

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Web\Auth\AuthController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,8 @@ Route::get('callback', [AuthController::class, 'callback'])->name('login.callbac
 
 
 Route::get('shop', [HomeController::class, 'shop'])->name('shop');
+Route::get('test', function () {
+    // $files = Storage::disk('public');
+    $files = Storage::disk('public')->allFiles();
+    dd($files);
+});
