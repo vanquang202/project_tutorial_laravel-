@@ -1,8 +1,10 @@
 <div class="card card-flush p-4">
-    @props(['data', 'route_create', 'route_update', 'route_delete', 'links'])
-    <div class=" d-flex justify-content-end align-content-end">
-        <a class="btn btn-primary" href="{{ route($route_create) }}" role="button">Thêm mới</a>
-    </div>
+    @props(['data', 'route_create', 'route_update', 'route_delete', 'links', 'hidens'])
+    @if (!isset($hidens['create']))
+        <div class=" d-flex justify-content-end align-content-end">
+            <a class="btn btn-primary" href="{{ route($route_create) }}" role="button">Thêm mới</a>
+        </div>
+    @endif
     <div class="table-responsive table-responsive-md">
 
         @if (count($data['data']) > 0)
@@ -16,6 +18,7 @@
                                 <th>{{ \Str::title($key) }}</td>
                             @endif
                         @endforeach
+
                         <th style="width: 10%">
                             <span class="svg-icon svg-icon-dark svg-icon-2x">
                                 <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/General/Settings-2.svg--><svg
@@ -31,6 +34,7 @@
                                 <!--end::Svg Icon-->
                             </span>
                         </th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -57,8 +61,17 @@
                                                     {{ $item['name'] ?? 'Chưa tồn tại key name ' }}
                                                 @endif
                                             @elseif (isset($links[$key]))
-                                                <a
-                                                    href="{{ route($links[$key], ['id' => $v['id']]) }}">{{ $item }}</a>
+                                                @if (isset($item['status']))
+                                                    @if ($item['status'] == 1)
+                                                        <a
+                                                            href="{{ route($links[$key], ['id' => $v['id']]) }}">{{ $item }}</a>
+                                                    @else
+                                                        {{ $item }}
+                                                    @endif
+                                                @else
+                                                    <a
+                                                        href="{{ route($links[$key], ['id' => $v['id']]) }}">{{ $item }}</a>
+                                                @endif
                                             @else
                                                 {{ $item }}
                                             @endif
@@ -67,16 +80,21 @@
                                 @endif
                             @endforeach
                             <td>
-                                <a href="{{ route($route_update, ['id' => $v['id']]) }}" type="button"
-                                    class="btn btn-info btn-sm mb-2">
-                                    Sửa
-                                </a>
+                                @if (!isset($hidens['update']))
+                                    <a href="{{ route($route_update, ['id' => $v['id']]) }}" type="button"
+                                        class="btn btn-info btn-sm mb-2">
+                                        Sửa
+                                    </a>
+                                @endif
+
                                 <br>
-                                <form action="{{ route($route_delete, ['id' => $v['id']]) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
-                                </form>
+                                @if (!isset($hidens['delete']))
+                                    <form action="{{ route($route_delete, ['id' => $v['id']]) }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

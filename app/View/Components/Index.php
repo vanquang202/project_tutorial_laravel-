@@ -33,7 +33,9 @@ class Index extends Component
     public $relationshipModel = [
         'user' => 'name',
         'lecturer' => 'name',
-        'course' => 'name'
+        'course' => 'name',
+        'class' => 'name',
+        'class_time' => 'name',
     ];
 
     public function render()

@@ -8,7 +8,7 @@
         <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
             id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
             <div class="menu-item menu-accordion">
-                <a class="menu-link" href="#">
+                <a class="menu-link" href="/admin">
                     <span class="menu-icon">
                         <span class="svg-icon svg-icon-primary svg-icon-2x">
                             <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Home/Home.svg--><svg

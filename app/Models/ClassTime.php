@@ -13,4 +13,9 @@ class ClassTime extends Model implements ICrubModelInterface
     protected $table = "class_time";
     protected $primaryKey = "id";
     protected $guarded = [];
+
+    public function getAll()
+    {
+        return $this->get(['id as value', 'name as label']);
+    }
 }

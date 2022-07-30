@@ -28,4 +28,9 @@ class Classroom extends Model
     {
         return $this->belongsTo(Course::class,'course_id');
     }
+
+    public function calendars()
+    {
+        return $this->hasMany(Calendar::class,'class_id');
+    }
 }
