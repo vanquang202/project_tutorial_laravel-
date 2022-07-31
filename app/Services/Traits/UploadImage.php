@@ -30,8 +30,8 @@ trait UploadImage
 
     private function unLinkImage($image)
     {
-        if (file_exists(public_path('images') . '\\' . $image)) {
-            unlink(public_path('images') . '\\' . $image);
+        if (file_exists(public_path('images') . '/' . $image)) {
+            unlink(public_path('images') . '/' . $image);
         };
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts_admin.main')
-@section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
+@section('title', 'Thêm mới danh mục')
+@section('page-title', 'Thêm mới danh mục')
 @section('content')
     <div>
         <x-form :dataForm="[

@@ -15,11 +15,9 @@ class CreateCalendarsTable extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('date');
-            $table->time('opening_hour')->comment("giờ bắt đầu học");
-            $table->time('closing_time')->comment("giờ kết thúc");
             $table->integer('class_id');
-            $table->string('address');
+            $table->integer('class_time_id');
+            $table->string('detail');
             $table->timestamps();
         });
     }

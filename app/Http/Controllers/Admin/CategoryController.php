@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\Interfaces\IRuleInterface;
 use App\Services\Traits\Crub;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements IRuleInterface
 {
     use Crub;
 
@@ -24,7 +25,7 @@ class CategoryController extends Controller
 
     public function getDataIndex()
     {
-        $categorys = $this->model::paginate(1);
+        $categorys = $this->model->getDataListPaginate(['limit' => 5]);
         return  ['categorys' => $categorys];
     }
 
@@ -35,14 +36,14 @@ class CategoryController extends Controller
 
     public function getDataEdit($id)
     {
-        $category = $this->model::find($id);
+        $category = $this->model->getDataModelById($id);
         return ['category' => $category];
     }
 
-    public function getRules($method ,$id)
+    public function getRules($method, $id)
     {
         $rule = [];
-        switch ($method) :
+        switch ($method):
             case 'POST':
                 $rule = [
                     'name' => 'required'
@@ -55,7 +56,7 @@ class CategoryController extends Controller
                 break;
             default:
                 break;
-            endswitch;
+        endswitch;
 
         return $rule;
     }

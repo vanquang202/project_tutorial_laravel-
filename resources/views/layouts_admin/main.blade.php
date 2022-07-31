@@ -4,7 +4,7 @@
 
 <head>
     <base href="/">
-    <title>FPT Polytechnic - Cổng đánh giá năng lực sinh viên</title>
+    <title>FPT Polytechnic</title>
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -151,7 +151,6 @@
     <!--end::Modals-->
     <!--begin::Javascript-->
     @include('layouts_admin._script')
-    @yield('page-script')
     <script>
         toastr.options = {
             closeButton: true,
@@ -171,6 +170,8 @@
             hideMethod: "fadeOut",
         };
     </script>
+    @yield('page-script')
+
     @if (session()->has('success'))
         <script>
             toastr.success("{{ session()->get('success') }}");
@@ -178,7 +179,7 @@
     @endif
     @if (session()->has('error'))
         <script>
-            toastr.success("{{ session()->get('error') }}");
+            toastr.error("{{ session()->get('error') }}");
         </script>
     @endif
     <!--end::Page Custom Javascript-->

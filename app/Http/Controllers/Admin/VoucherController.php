@@ -7,6 +7,7 @@ use App\Models\Voucher;
 use App\Services\Interfaces\IRuleInterface;
 use Illuminate\Http\Request;
 use App\Services\Traits\Crub;
+
 class VoucherController extends Controller implements IRuleInterface
 {
     use Crub;
@@ -22,9 +23,7 @@ class VoucherController extends Controller implements IRuleInterface
 
     public function getDataIndex()
     {
-        $vouchers = $this->model->getDataIndexList([
-            'limit' => request('limit') ?? 10
-        ]);
+        $vouchers = $this->model->getDataIndexList(['limit' => 5]);
         return  ['vouchers' => $vouchers];
     }
 
@@ -39,11 +38,11 @@ class VoucherController extends Controller implements IRuleInterface
         return ['voucher' => $voucher];
     }
 
-    public function getRules($method ,$id )
+    public function getRules($method, $id)
     {
         $rule = [];
         $ruleCode = "";
-        switch ($method) :
+        switch ($method):
             case 'POST':
                 $ruleCode =  "required|unique:vouchers,code";
                 break;
@@ -52,7 +51,7 @@ class VoucherController extends Controller implements IRuleInterface
                 break;
             default:
                 break;
-            endswitch;
+        endswitch;
         $rule = [
             'code' => $ruleCode,
             'value' => 'required',

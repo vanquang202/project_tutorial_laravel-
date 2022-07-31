@@ -11,17 +11,17 @@
                     <textarea class="form-control" name="{{ $data['name'] }}" id="" rows="3">{{ $data['value'] ?? old($data['name']) }}</textarea>
                 @elseif ($data['type'] == 'selects')
                     <select name="{{ $data['name'] }}" class="form-control form-select-solid" data-control="select2"
-                        data-placeholder="Select an option" data-allow-clear="true" multiple="multiple">
+                        data-placeholder="Vui lòng chọn !!" data-allow-clear="true" multiple="multiple">
                         @foreach ($data['options'] as $option)
-                            <option @selected($data['value'] ?? -1 == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
+                            <option @selected(($data['value'] ?? -1) == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
                             </option>
                         @endforeach
                     </select>
                 @elseif ($data['type'] == 'select')
                     <select name="{{ $data['name'] }}" class="form-control form-select-solid" data-control="select2"
-                        data-placeholder="Select an option" data-allow-clear="true">
+                        data-placeholder="Vui lòng chọn !!" data-allow-clear="true">
                         @foreach ($data['options'] as $option)
-                            <option @selected($data['value'] ?? -1 == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
+                            <option @selected(($data['value'] ?? -1) == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
                             </option>
                         @endforeach
                     </select>
@@ -29,8 +29,15 @@
                     <input type="file" multiple class="form-control"
                         value="{{ $data['value'] ?? old($data['name']) }}"name="{{ $data['name'] }}">
                 @else
-                    <input type="{{ $data['type'] }}" value="{{ $data['value'] ?? old($data['name']) }}"
-                        name="{{ $data['name'] }}" class="form-control">
+                    @if ($data['type'] == 'date' && isset($data['min']))
+                        @php
+                            $dt = \Carbon\Carbon::parse($data['min']);
+                        @endphp
+                    @endif
+                    <input type="{{ $data['type'] }}"
+                        min="{{ $data['type'] == 'date' && isset($data['min']) ? $dt->toDateString() : null }}"
+                        value="{{ $data['value'] ?? old($data['name']) }}" name="{{ $data['name'] }}"
+                        class="form-control">
                 @endif
                 @error($data['name'])
                     <div class="text-danger">{{ $message }}</div>
