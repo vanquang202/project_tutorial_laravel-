@@ -29,8 +29,15 @@
                     <input type="file" multiple class="form-control"
                         value="{{ $data['value'] ?? old($data['name']) }}"name="{{ $data['name'] }}">
                 @else
-                    <input type="{{ $data['type'] }}" value="{{ $data['value'] ?? old($data['name']) }}"
-                        name="{{ $data['name'] }}" class="form-control">
+                    @if ($data['type'] == 'date' && isset($data['min']))
+                        @php
+                            $dt = \Carbon\Carbon::parse($data['min']);
+                        @endphp
+                    @endif
+                    <input type="{{ $data['type'] }}"
+                        min="{{ $data['type'] == 'date' && isset($data['min']) ? $dt->toDateString() : null }}"
+                        value="{{ $data['value'] ?? old($data['name']) }}" name="{{ $data['name'] }}"
+                        class="form-control">
                 @endif
                 @error($data['name'])
                     <div class="text-danger">{{ $message }}</div>
