@@ -97,10 +97,11 @@ class CourseController extends Controller implements IRuleInterface
 
         $imagesNew = [$nameImageNew];
         $course = $this->model->getDataModelById($id);
-        $images = json_decode($course->images);
-        foreach ($images as $image) {
-            if ($flagUpload == false && $image == $r->image_old) continue;
-            array_push($imagesNew, $image);
+        $images = json_decode($course->images ?? "[]");
+        foreach($images as $image)
+        {
+            if($flagUpload == false && $image == $r->image_old) continue;
+            array_push($imagesNew,$image);
         }
         $course->updateDataModel([
             'images' => $imagesNew

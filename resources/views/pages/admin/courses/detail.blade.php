@@ -18,7 +18,7 @@
                             <img style="width: 100% ;max-height:300px" src="{{ asset('images/' . $course->image) }}"
                                 alt="">
                             <div class="symbol-group symbol-hover">
-                                @foreach (json_decode($course->images) as $key => $image)
+                                @foreach (json_decode($course->images ?? '[]') as $key => $image)
                                     <div class="symbol symbol-circle symbol-50px">
                                         <img type="button" data-bs-toggle="modal"
                                             data-bs-target="#kt_modal_{{ $key }}"

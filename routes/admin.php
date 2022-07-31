@@ -44,6 +44,7 @@ Route::prefix('calendar')->group(function () {
             "index" => "calendar.index",
             "store" => "calendar.store",
             "create" => "calendar.create",
+            "show" => "calendar.show",
             "edit" => "calendar.edit",
             "update" => "calendar.update",
             "destroy" => "calendar.destroy",

@@ -7,8 +7,8 @@ trait Login
 {
     public function redirect()
     {
-        if($this->middleLogin())  request()->session()->put('flag_admin',true);
-        if(!$this->middleLogin())  request()->session()->put('flag_admin',false);
+        if($this->middleLogin()) request()->session()->put('flag_admin',true);
+        if(!$this->middleLogin()) request()->session()->put('flag_admin',false);
         request()->session()->put('driver',request()->driver);
         return $this->socialite::driver(request()->driver)->redirect(route('web.login.callback'));
     }
