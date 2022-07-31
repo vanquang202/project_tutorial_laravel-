@@ -12,9 +12,9 @@
                 <div class="col-md-12 col-lg-7  ">
                     <h1><a href="#">{{ $data->name }}</a></h1>
                     <h2>
-                        {{ $data->price }} đ
+                        {{ number_format($data->price, 0, ',', '.') }} đ
                     </h2>
-                    <p><a href="#" class="btn btn-primary btn-sm">Mua ngay</a></p>
+                    <p><a href="{{ route('web.checkout.view') }}" class="btn btn-primary btn-sm">Mua ngay</a></p>
                     <p>{{ $data->detail }}</p>
                     {{-- <hr> --}}
                     {{-- <div class="mb-3">

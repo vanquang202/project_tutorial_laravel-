@@ -10,5 +10,5 @@
                                             text-overflow: ellipsis; overflow: hidden; text-align: initial;">
         <a href="{{ route('web.couser.detail', ['id' => $data['id']]) }}">{{ $data['name'] }}</a>
     </h2>
-    <p class="text-primary font-weight-bold">{{ $data['price'] }} đ</p>
+    <p class="text-primary font-weight-bold">{{ number_format($data['price'], 0, ',', '.') }} đ</p>
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Auth\AuthController;
+use App\Http\Controllers\Web\CheckoutController;
 use App\Http\Controllers\Web\CourseController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,8 @@ Route::get('test', function () {
 });
 Route::prefix('couser')->group(function () {
     Route::get('{id}', [CourseController::class, 'detailCouse'])->name('couser.detail');
+});
+
+Route::prefix('checkout')->group(function () {
+    Route::get('', [CheckoutController::class, 'viewCheckout'])->name('checkout.view');
 });

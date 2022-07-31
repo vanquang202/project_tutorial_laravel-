@@ -34,10 +34,19 @@ class Course extends Model implements ICrubModelInterface
 
     public function getDataListPaginate($params = [])
     {
+
         $query =  $this->paginate($params['limit'] ?? null);
         return $query;
     }
-
+    // public function whenWhereHasRelationship($value = null, $relation = null, $tableColumn = null)
+    // {
+    //     if ($value == null) return $this;
+    //     if ($relation == null) return $this;
+    //     if ($tableColumn == null) return $this;
+    //     return $this->whereHas($relation, function ($query) use ($value,  $tableColumn) {
+    //         $query->where($tableColumn, $value);
+    //     });
+    // }
     public function classRooms()
     {
         return $this->hasMany(Classroom::class,  'course_id');
