@@ -17,19 +17,19 @@ class CourseFactory extends Factory
      */
     public function definition()
     {
-
-        //         $input = array("Neo", "Morpheus", "Trinity", "Cypher", "Tank");
-        // $rand_keys = array_rand($input, 2);
-        // echo $input[$rand_keys[0]] . "\n";
-        // echo $input[$rand_keys[1]] . "\n";
-
-
         $files = Storage::disk('public')->allFiles();
         $key = array_rand($files);
+        $rand_keys = array_rand($files, 5);
         return [
             'name' => $this->faker->name,
             'image' => $files[$key],
-            'images' => null,
+            'images' => json_encode([
+                $files[$rand_keys[0]],
+                $files[$rand_keys[1]],
+                $files[$rand_keys[2]],
+                $files[$rand_keys[3]],
+                $files[$rand_keys[4]],
+            ]),
             'status' => 1,
             'price' => rand(100000, 999999),
             'detail' => $this->faker->sentence(15),

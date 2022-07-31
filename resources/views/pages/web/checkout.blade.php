@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="site-section">
-            <div class="container">
+            <div class=" container-fluid">
                 <div class="row mb-5">
                     <div class="col-md-12">
                         <div class="border p-4 rounded" role="alert">
@@ -20,8 +20,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-5 mb-md-0">
-                        <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                    <div class="col-md-8 mb-5 mb-md-0">
+                        <h2 class="h3 mb-3 text-black">Chi tiết hóa đơn</h2>
                         <div class="p-3 p-lg-5 border">
                             <div class="form-group">
                                 <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
@@ -224,11 +224,11 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
 
                         <div class="row mb-5">
                             <div class="col-md-12">
-                                <h2 class="h3 mb-3 text-black">Coupon Code</h2>
+                                <h2 class="h3 mb-3 text-black">Vocher giảm giá</h2>
                                 <div class="p-3 p-lg-5 border">
 
                                     <label for="c_code" class="text-black mb-3">Enter your coupon code if you have

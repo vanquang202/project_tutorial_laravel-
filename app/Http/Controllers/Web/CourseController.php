@@ -13,8 +13,12 @@ class CourseController extends Controller
     }
     public function detailCouse($id)
     {
-        $data = $this->course->getDataModelById($id, ['classRooms', 'categorys']);
-        // dd($data);
+        dd($id);
+        $data = $this->course->getDataModelById($id, ['categorys']);
+        if (is_null($data)) {
+            // return  redirect(route(404));
+            dd('ok');
+        }
         $this->compact['data'] =  $data;
         return view('pages.web.detail_couse', $this->compact);
     }
