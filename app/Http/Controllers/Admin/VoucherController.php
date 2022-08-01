@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Voucher;
 use App\Services\Interfaces\IRuleInterface;
-use Illuminate\Http\Request;
+use App\Services\Repository\VoucherR;
 use App\Services\Traits\Crub;
 
 class VoucherController extends Controller implements IRuleInterface
 {
     use Crub;
-    public function __construct(public Voucher $model)
+
+    public function __construct(public VoucherR $model)
     {
         $this->views = [
             'router-list' => route('admin.voucher.index'),

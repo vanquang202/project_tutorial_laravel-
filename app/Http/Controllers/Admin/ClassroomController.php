@@ -3,19 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Classroom;
 use App\Models\ClassTime;
 use App\Models\Course;
 use App\Models\User;
 use App\Services\Interfaces\IRuleInterface;
+use App\Services\Repository\ClassroomRI;
 use App\Services\Traits\Crub;
-use Illuminate\Http\Request;
 
 class ClassroomController extends Controller implements IRuleInterface
 {
     use Crub;
     public function __construct(
-        public Classroom $model,
+        public ClassroomRI $model,
         public Course $course,
         public User $user,
         public ClassTime $class_time,
@@ -43,6 +42,7 @@ class ClassroomController extends Controller implements IRuleInterface
             default:
                 break;
         endswitch;
+
         $rule = [
             'name'  =>  $ruleCode,
             'lecturer_id' => 'required',
@@ -50,7 +50,6 @@ class ClassroomController extends Controller implements IRuleInterface
             'status' => 'required',
             'date_open' => 'required',
         ];
-        // dd($rule);
         return $rule;
     }
 
@@ -88,23 +87,9 @@ class ClassroomController extends Controller implements IRuleInterface
 
     public function show($id)
     {
-        $classroom = $this->model->getDataModelById($id, [
-            'lecturer', 'course', 'calendars'
-        ]);
-
-        $calendars = $classroom->calendars()
-            ->with(['class_time', 'class'])
-            ->paginate(request()->limit ?? 10);
-        $calendars->makeHidden(['class_id', 'class_time_id']);
-
-        $class_time = $this->class_time->getAll();
-
-        if (!$classroom || !$calendars) return redirect()->back()->with('error', 'Không thể xem chi tiết của lớp học này !');
-        if ($classroom->status == 0) return redirect()->back()->with('error', 'Lớp học này đang ở trạng thái khóa !');
-        return view($this->views['detail'], [
-            'classroom' => $classroom,
-            'calendars' => $calendars,
-            'class_time' => $class_time
-        ]);
+        $data = $this->model->show($id);
+        if (!$data['classroom'] || !$data['calendars']) return redirect()->back()->with('error', 'Không thể xem chi tiết của lớp học này !');
+        if ($data['classroom']->status == 0) return redirect()->back()->with('error', 'Lớp học này đang ở trạng thái khóa !');
+        return view($this->views['detail'], $data);
     }
 }

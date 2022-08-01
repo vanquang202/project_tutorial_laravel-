@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Services\Repository\ClassroomR;
+use App\Services\Repository\ClassroomRI;
+use App\Services\Repository\VoucherR;
+use App\Services\Repository\VoucherRI;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(VoucherRI::class,VoucherR::class);
+        $this->app->bind(ClassroomRI::class,ClassroomR::class);
     }
 
     /**
