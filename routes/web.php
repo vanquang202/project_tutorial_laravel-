@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Web\Auth\AuthController;
-use App\Http\Controllers\Web\CheckoutController;
-use App\Http\Controllers\Web\CourseController;
-use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\CourseController;
+use App\Http\Controllers\Web\CheckoutController;
+use App\Http\Controllers\Web\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,19 +30,21 @@ Route::get('callback', [AuthController::class, 'callback'])->name('login.callbac
 
 
 Route::get('shop', [HomeController::class, 'shop'])->name('shop');
-// Route::get('test', function () {
-//     // $files = Storage::disk('public');
-//     $files = Storage::disk('public')->allFiles();
-//     $rand_keys = array_rand($files, 5);
-//     $r = [
-//         $files[$rand_keys[0]],
-//         $files[$rand_keys[1]],
-//         $files[$rand_keys[2]],
-//         $files[$rand_keys[3]],
-//         $files[$rand_keys[4]],
-//     ];
-//     dd(json_encode($r));
-// });
+Route::get('test', function () {
+    // $files = Storage::disk('public')->allFiles();
+    // $rand_keys = array_rand($files, 5);
+    // $r = [
+    //     $files[$rand_keys[0]],
+    //     $files[$rand_keys[1]],
+    //     $files[$rand_keys[2]],
+    //     $files[$rand_keys[3]],
+    //     $files[$rand_keys[4]],
+    // ];
+    // dd(json_encode($r));
+
+
+
+});
 Route::prefix('couser')->group(function () {
     Route::get('{id}', [CourseController::class, 'detailCouse'])->name('couser.detail');
 });

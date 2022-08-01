@@ -5,7 +5,7 @@
     <title>Shoppers &mdash; Colorlib e-Commerce Template</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('layout_web._style')
 </head>
 
@@ -20,7 +20,7 @@
     </div>
 
     @include('layout_web._script')
-
+    @yield('js_web')
 </body>
 
 </html>
