@@ -2,23 +2,11 @@
 
 namespace App\Services\Traits;
 
-use App\Http\Requests\CrubRequest;
-use Illuminate\Http\Request;
-use Arr;
+use Illuminate\Support\Arr;
 
-trait Crub
+trait CrubModelRepository
 {
-    use UploadImage;
-
-    public function index()
-    {
-        return view($this->views['list'], $this->getDataIndex());
-    }
-
-    public function create()
-    {
-        return view($this->views['create'], $this->getDataCreate());
-    }
+     use UploadImage;
 
     private function getDataRequest($data, $dataModelExitsByUpdate = null)
     {
@@ -62,51 +50,31 @@ trait Crub
         return $data;
     }
 
-    private function redirectErrorNullModel($data)
+
+    public function getDataModelById($id, $with = [])
     {
-        return redirect()->back()->withInput()->with('error', $data['message']);
+        return $this->model->getDataModelById($id, $with);
     }
 
-    private function redirectSuccessModel($data)
+    public function storeDataModel($request)
     {
-        return redirect($this->views[$data['route']])->with('success', $data['message']);
+        $data = $this->getDataRequest($request->except(['_token','_method','id']));
+        return $this->model->storeDataModel($data);
     }
 
-    public function store(CrubRequest $request)
+    public function updateDataModel($request,$id)
     {
-        $data = $this->model->storeDataModel($request);
-        if ($data == null) return $this->redirectErrorNullModel([
-            'message' => 'Thêm mới thất bại !'
-        ]);
-        return $this->redirectSuccessModel([
-            'route' => 'router-list',
-            'message' => 'Thêm mới thành công',
-        ]);
+        $modelFindById = $this->model->getDataModelById($id);
+        $data = $this->getDataRequest($request->except(['_token']), $modelFindById);
+        return $modelFindById->updateDataModel($data);
     }
 
-    public function edit($id)
+    public function destroyDataModel($id)
     {
-        return view($this->views['edit'], $this->getDataEdit($id));
-    }
-
-    public function update(CrubRequest $request, $id)
-    {
-        $modelFindById = $this->model->updateDataModel($request,$id);
-        if ($modelFindById == null) return $this->redirectErrorNullModel([
-            'message' => 'Cập nhật thất bại !'
-        ]);
-        return $this->redirectSuccessModel([
-            'route' => 'router-list',
-            'message' => 'Cập nhật thành công',
-        ]);
-    }
-
-    public function destroy($id)
-    {
-        $this->model->destroyDataModel($id);
-        return $this->redirectSuccessModel([
-            'route' => 'router-list',
-            'message' => 'Xóa bản ghi thành công',
-        ]);
+        $modelFindById = $this->model->getDataModelById($id);
+        if ($modelFindById->image && $modelFindById->images) $this->checkImageExist($modelFindById->image, $modelFindById->images);
+        if ($modelFindById->image) $this->checkImageExist($modelFindById->image);
+        if ($modelFindById->images) $this->checkImageExist($modelFindById->image);
+        return $modelFindById->destroyDataModel();
     }
 }

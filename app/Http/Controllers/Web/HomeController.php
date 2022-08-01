@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
-    // public $compact = [];
+    private $compact = [];
     public function __construct(
         public Course $course,
         public Category $category

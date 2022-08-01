@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Web\CheckoutController;
 
 
 
@@ -10,5 +11,9 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('update-image-course/{id}',[CourseController::class,'updateImageCourse']);
-Route::post('upload-image-course/{id}',[CourseController::class,'uploadImageCourse']);
+Route::post('update-image-course/{id}', [CourseController::class, 'updateImageCourse']);
+Route::post('upload-image-course/{id}', [CourseController::class, 'uploadImageCourse']);
+
+Route::prefix('class')->group(function () {
+    Route::post('', [CheckoutController::class, 'getCalendar'])->name('class.calendar');
+});

@@ -19,7 +19,7 @@ class CategoryCouse extends Seeder
         $cate  = Category::all();
         Course::all()->each(function ($couse) use ($cate) {
             $couse->categorys()->syncWithoutDetaching(
-                $cate->random(rand(1, 3))->pluck('id')->toArray()
+                $cate->random(rand(1, 5))->pluck('id')->toArray()
             );
         });
     }
