@@ -18,4 +18,7 @@ class Voucher extends Model implements ICrubModelInterface
     {
         return $this->paginate($params['limit']);
     }
+    public function findVocher($code)
+    {
+    }
 }

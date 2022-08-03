@@ -20,7 +20,7 @@ use App\Http\Controllers\Web\Auth\AuthController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
-Route::get('login', [AuthController::class, 'login']);
+Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::get('redirect', [AuthController::class, 'redirect'])->name('login.redirect');
 Route::get('callback', [AuthController::class, 'callback'])->name('login.callback');
 
@@ -49,6 +49,6 @@ Route::prefix('couser')->group(function () {
     Route::get('{id}', [CourseController::class, 'detailCouse'])->name('couser.detail');
 });
 
-Route::prefix('checkout')->group(function () {
+Route::prefix('checkout')->middleware(['auth'])->group(function () {
     Route::get('', [CheckoutController::class, 'viewCheckout'])->name('checkout.view');
 });

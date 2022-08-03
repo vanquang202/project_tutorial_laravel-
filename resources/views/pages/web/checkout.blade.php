@@ -12,13 +12,13 @@
         </div>
         <div class="site-section">
             <div class=" container-fluid">
-                <div class="row mb-5">
+                {{-- <div class="row mb-5">
                     <div class="col-md-12">
                         <div class="border p-4 rounded" role="alert">
                             Returning customer? <a href="#">Click here</a> to login
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="row">
                     <div class="col-md-8 mb-5 mb-md-0">
                         <h2 class="h3 mb-3 text-black">Chi tiết hóa đơn</h2>
@@ -29,7 +29,7 @@
                                         class="text-danger">*</span></label>
                                 @if (count($data->classRooms) > 0)
                                     <select id="c_classroom" class="form-control">
-                                        <option value="0">Vui lòng chọn lớp</option>
+                                        <option value="null">Vui lòng chọn lớp</option>
                                         @foreach ($data->classRooms as $class)
                                             <option value="{{ $class->id }}">{{ $class->name }}</option>
                                         @endforeach
@@ -55,8 +55,42 @@
 
 
                             </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="name" class="text-black">Họ và tên </label>
+                                    <input readonly='true' type="text" class="form-control" id="name" name="name"
+                                        value="{{ auth()->user()->name }}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="email" class="text-black">Email </label>
+                                    <input readonly='true' type="text" class="form-control" id="email" name="email"
+                                        value="{{ auth()->user()->email }}">
+                                </div>
+                            </div>
                         </div>
 
+
+
+
+                        <h2 class="h3 mb-3 text-black mt-5">Vocher giảm giá</h2>
+                        <div class="p-3 p-lg-5 border">
+
+                            <label for="c_code" class="text-black mb-3">Nhập mã để được giảm giá khóa học</label>
+                            <div class="input-group w-75">
+                                <input type="text" class="form-control" id="c_code" placeholder=" Code"
+                                    aria-label=" Code" aria-describedby="button-addon2">
+                                <br>
+
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary btn-sm" type="button" id="button-addon2">Áp dụng
+                                    </button>
+                                </div>
+                            </div>
+                            <small style="color: red " id="helpId_c_code" class="text-muted"></small>
+
+                        </div>
                         {{-- <div class="p-3 p-lg-5 border">
                             <div class="form-group">
                                 <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
@@ -252,96 +286,73 @@
                     </div>
                     <div class="col-md-4">
 
-                        <div class="row mb-5">
+                        {{-- <div class="row mb-5">
                             <div class="col-md-12">
                                 <h2 class="h3 mb-3 text-black">Vocher giảm giá</h2>
                                 <div class="p-3 p-lg-5 border">
 
-                                    <label for="c_code" class="text-black mb-3">Enter your coupon code if you have
-                                        one</label>
+                                    <label for="c_code" class="text-black mb-3">Nhập mã để được giảm giá khóa học</label>
                                     <div class="input-group w-75">
-                                        <input type="text" class="form-control" id="c_code" placeholder="Coupon Code"
-                                            aria-label="Coupon Code" aria-describedby="button-addon2">
+                                        <input type="text" class="form-control" id="c_code" placeholder=" Code"
+                                            aria-label=" Code" aria-describedby="button-addon2">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary btn-sm" type="button"
-                                                id="button-addon2">Apply</button>
+                                            <button class="btn btn-primary btn-sm" type="button" id="button-addon2">Áp dụng
+                                            </button>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row mb-5">
                             <div class="col-md-12">
                                 <h2 class="h3 mb-3 text-black">Khóa học</h2>
-                                <div class="p-3 p-lg-5 border">
-                                    <table class="table site-block-order-table mb-5">
+                                <div style="position: relative;overflow: hidden;background-image: url({{ asset('images/' . $data->image) }});height: 600px; width: 100%; background-position: center; background-repeat: no-repeat;background-size: cover;"
+                                    class="p-3 p-lg-5 border">
 
-                                        <tbody>
+                                    <div class="conten_oder">
 
-                                            <tr>
-                                                <td>{{ $data->name }} </td>
-                                                <td> {{ number_format($data->price, 0, ',', '.') }} đ</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong>
-                                                </td>
-                                                <td class="text-black">$350.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-black font-weight-bold"><strong>Order Total</strong>
-                                                </td>
-                                                <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                        <table class="table site-block-order-table mb-5">
 
-                                    <div class="border p-3 mb-3">
-                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank"
-                                                role="button" aria-expanded="false" aria-controls="collapsebank">Direct
-                                                Bank Transfer</a></h3>
+                                            <tbody id="result_total">
 
-                                        <div class="collapse" id="collapsebank">
-                                            <div class="py-2">
-                                                <p class="mb-0">Make your payment directly into our bank account.
-                                                    Please use your Order ID as the payment reference. Your order won’t
-                                                    be shipped until the funds have cleared in our account.</p>
+                                                <tr>
+                                                    <td>{{ $data->name }} </td>
+                                                    <td> {{ number_format($data->price, 0, ',', '.') }} đ</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-black font-weight-bold"><strong>Giảm giá</strong>
+                                                    </td>
+                                                    <td class="text-black">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-black font-weight-bold"><strong>Tổng</strong>
+                                                    </td>
+                                                    <td class="text-black font-weight-bold">
+                                                        <strong>{{ number_format($data->price, 0, ',', '.') }} đ</strong>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {{-- <div class="border p-3 mb-3">
+                                            <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank"
+                                                    role="button" aria-expanded="false" aria-controls="collapsebank">Direct
+                                                    Bank Transfer</a></h3>
+    
+                                            <div class="collapse" id="collapsebank">
+                                                <div class="py-2">
+                                                    <p class="mb-0">Make your payment directly into our bank account.
+                                                        Please use your Order ID as the payment reference. Your order won’t
+                                                        be shipped until the funds have cleared in our account.</p>
+                                                </div>
                                             </div>
+                                        </div> --}}
+
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-lg py-3 btn-block"
+                                                onclick="window.location='thankyou.html'">Thanh toán ngay</button>
                                         </div>
-                                    </div>
-
-                                    <div class="border p-3 mb-3">
-                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque"
-                                                role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque
-                                                Payment</a></h3>
-
-                                        <div class="collapse" id="collapsecheque">
-                                            <div class="py-2">
-                                                <p class="mb-0">Make your payment directly into our bank account.
-                                                    Please use your Order ID as the payment reference. Your order won’t
-                                                    be shipped until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="border p-3 mb-5">
-                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal"
-                                                role="button" aria-expanded="false"
-                                                aria-controls="collapsepaypal">Paypal</a></h3>
-
-                                        <div class="collapse" id="collapsepaypal">
-                                            <div class="py-2">
-                                                <p class="mb-0">Make your payment directly into our bank account.
-                                                    Please use your Order ID as the payment reference. Your order won’t
-                                                    be shipped until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button class="btn btn-primary btn-lg py-3 btn-block"
-                                            onclick="window.location='thankyou.html'">Place Order</button>
                                     </div>
 
                                 </div>
@@ -358,51 +369,68 @@
 
 @section('js_web')
     <script>
-        $(document).on('change', '#c_classroom', function(e) {
-            e.preventDefault();
-            if ($(this).val() == 0) {
-                $('#calendars').empty();
-                return;
-            }
-            $('#calendars').empty();
-            // alert($(this).val())
-            $('#loading').show();
-            // setTimeout(() => {
-
-            //     $('#loading').hide();
-            // }, 3000);
-            $.ajax({
-                type: "post",
-                url: "{{ route('class.calendar') }}",
-                data: {
-                    id: $(this).val()
-                },
-                success: function(response) {
-                    var _html = ``;
-                    _html += ` <table class="table table-hover table-inverse">
-                                <thead class="thead-inverse">
-                                    <tr>
-                                        <th>Ngày học </th>
-                                        <th>Ca</th>
-                                        <th>Thời gian</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-                    response.payload.map(function(val) {
-                        _html += `
-                            <tr>
-                                <td scope="row">${val.date}</td>
-                                <td>${val.class_time.name}</td>
-                                <td>${val.class_time.opening_hour} - ${val.class_time.closing_time}</td>
-                            </tr>
-                        `;
-                    });
-                    _html += `    </tbody>
-                            </table>`;
+        $(document).ready(function() {
+            $(document).on('change', '#c_classroom', function(e) {
+                e.preventDefault();
+                if ($(this).val() == 'null') {
                     $('#calendars').empty();
-                    $('#loading').hide();
-                    $('#calendars').html(_html);
+                    return;
                 }
+                $('#calendars').empty();
+                $('#loading').show();
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('class.calendar') }}",
+                    data: {
+                        id: $(this).val()
+                    },
+                    success: function(response) {
+                        var _html = ``;
+                        _html += ` <table class="table table-hover table-inverse">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>Ngày học </th>
+                                            <th>Ca</th>
+                                            <th>Thời gian</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+                        response.payload.map(function(val) {
+                            _html += `
+                                <tr>
+                                    <td scope="row">${val.date}</td>
+                                    <td>${val.class_time.name}</td>
+                                    <td>${val.class_time.opening_hour} - ${val.class_time.closing_time}</td>
+                                </tr>
+                            `;
+                        });
+                        _html += `    </tbody>
+                                </table>`;
+                        $('#calendars').empty();
+                        $('#loading').hide();
+                        $('#calendars').html(_html);
+                    }
+                });
+            });
+            $(document).on('click', '#button-addon2', function(e) {
+                e.preventDefault();
+                var code = $('#c_code').val();
+                if (code === '') {
+                    $('#helpId_c_code').text('Chưa nhập code !!');
+                    return;
+                }
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('checkout.vocher') }}",
+                    data: {
+                        code: code
+                    },
+                    success: function(res) {
+                        console.log(res);
+                    }
+                });
+
+
             });
         });
     </script>
