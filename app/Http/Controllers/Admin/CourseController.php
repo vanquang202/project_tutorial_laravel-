@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImageRequest;
-use App\Models\Course;
 use App\Services\Interfaces\IRuleInterface;
+use App\Services\Repository\CourseRI;
 use App\Services\Traits\Crub;
+use App\Services\Traits\ReponseApi;
 use App\Services\Traits\UploadImage;
-use Illuminate\Http\Request;
 
 class CourseController extends Controller implements IRuleInterface
 {
-    use Crub, UploadImage;
+    use Crub, UploadImage, ReponseApi;
 
-    public function __construct(public Course $model)
+    public function __construct(public CourseRI $model)
     {
         $this->views = [
             'router-list' => route('admin.course.index'),
@@ -68,7 +68,7 @@ class CourseController extends Controller implements IRuleInterface
 
     public function getDataEdit($id)
     {
-        $data = $this->model::find($id);
+        $data = $this->model->getDataModelById($id);
         return ['data' => $data];
     }
 
@@ -91,23 +91,19 @@ class CourseController extends Controller implements IRuleInterface
     {
         if (!$flagUpload) $nameImageNew = $this->upLoadImage($r->image, $r->image_old);
         if ($flagUpload) $nameImageNew = $this->upLoadImage($r->image);
-        if (!$nameImageNew) return response()->json([
+        if (!$nameImageNew) return $this->responseApi([
             "status" => false,
         ]);
-
         $imagesNew = [$nameImageNew];
-        $course = $this->model->getDataModelById($id);
-        $images = json_decode($course->images ?? "[]");
-        foreach($images as $image)
-        {
-            if($flagUpload == false && $image == $r->image_old) continue;
-            array_push($imagesNew,$image);
-        }
-        $course->updateDataModel([
-            'images' => $imagesNew
-        ]);
+        $course = $this->model->updateApiImage($r,$id,$flagUpload,$imagesNew);
 
-        return response()->json([
+        if(!$course) {
+            $this->unLinkImage($nameImageNew);
+            return $this->responseApi([
+                "status" => false,
+            ]);
+        }
+        return $this->responseApi([
             "status" => true,
         ]);
     }

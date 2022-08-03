@@ -81,19 +81,48 @@
                             @endforeach
                             <td>
                                 @if (!isset($hidens['update']))
-                                    <a href="{{ route($route_update, ['id' => $v['id']]) }}" type="button"
-                                        class="btn btn-info btn-sm mb-2">
-                                        Sửa
-                                    </a>
+                                    @if (is_array($route_update))
+                                        @php
+                                            if (isset($route_update[2])) {
+                                                $dataRoute = array_merge($route_update[1], [
+                                                    $route_update[2] => $v['id'],
+                                                ]);
+                                            }
+                                        @endphp
+                                        <a href="{{ route($route_update[0], $dataRoute) }}" type="button"
+                                            class="btn btn-info btn-sm mb-2">
+                                            Sửa
+                                        </a>
+                                    @else
+                                        <a href="{{ route($route_update, ['id' => $v['id']]) }}" type="button"
+                                            class="btn btn-info btn-sm mb-2">
+                                            Sửa
+                                        </a>
+                                    @endif
                                 @endif
 
                                 <br>
                                 @if (!isset($hidens['delete']))
-                                    <form action="{{ route($route_delete, ['id' => $v['id']]) }}" method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
-                                    </form>
+                                    @if (is_array($route_delete))
+                                        @php
+                                            if (isset($route_delete[2])) {
+                                                $dataRoute = array_merge($route_delete[1], [
+                                                    $route_delete[2] => $v['id'],
+                                                ]);
+                                            }
+                                        @endphp
+                                        <form action="{{ route($route_delete[0], $dataRoute) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route($route_delete, ['id' => $v['id']]) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                         </tr>

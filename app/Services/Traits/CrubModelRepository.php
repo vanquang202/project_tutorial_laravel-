@@ -58,14 +58,14 @@ trait CrubModelRepository
 
     public function storeDataModel($request)
     {
-        $data = $this->getDataRequest($request->except(['_token','_method','id']));
+        $data = $this->getDataRequest($request->except(['_token','_method','id','classroom_id']));
         return $this->model->storeDataModel($data);
     }
 
     public function updateDataModel($request,$id)
     {
         $modelFindById = $this->model->getDataModelById($id);
-        $data = $this->getDataRequest($request->except(['_token']), $modelFindById);
+        $data = $this->getDataRequest($request->except(['_token','_method','classroom_id']), $modelFindById);
         return $modelFindById->updateDataModel($data);
     }
 
