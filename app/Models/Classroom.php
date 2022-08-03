@@ -19,6 +19,8 @@ class Classroom extends Model
         return $this->with(['lecturer', 'course'])->paginate($params['limit'] ?? null);
     }
 
+
+
     public function lecturer()
     {
         return $this->belongsTo(User::class, 'lecturer_id');

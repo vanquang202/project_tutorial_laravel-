@@ -21,17 +21,31 @@
                 <div class="col-6 col-md-4 order-3 order-md-3 text-right">
                     <div class="site-top-icons">
                         <ul>
-                            <li><a href="#"><i class="bi bi-person-circle"></i></a></li>
-                            <li><a href="#"><i class="bi bi-heart-fill"></i></a></li>
-                            <li>
-                                <a href="cart.html" class="site-cart">
-                                    <i class="bi bi-bag-fill"></i>
-                                    <span class="count">2</span>
-                                </a>
-                            </li>
-                            <li class="d-inline-block d-md-none ml-md-0"><a href="#"
-                                    class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a>
-                            </li>
+                            @if (auth()->check())
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-bg-white btn-sm dropdown-toggle"
+                                        id="dropdownMenuReference" data-toggle="dropdown">
+                                        {{ auth()->user()->name }}</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+
+                                        <a class="dropdown-item" href="#">Đăng xuất</a>
+                                    </div>
+                                </div>
+                            @else
+                                <li><a href="{{ route('web.login') }}"><i class="bi bi-person-circle"></i></a></li>
+                            @endif
+
+
+                            {{-- <li><a href="#"><i class="bi bi-heart-fill"></i></a></li>
+                                <li>
+                                    <a href="cart.html" class="site-cart">
+                                        <i class="bi bi-bag-fill"></i>
+                                        <span class="count">2</span>
+                                    </a>
+                                </li>
+                                <li class="d-inline-block d-md-none ml-md-0"><a href="#"
+                                        class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a>
+                                </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -41,7 +55,7 @@
     </div>
     <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container">
-            <ul class="site-menu js-clone-nav d-none d-md-block">
+            <ul class="site-menu js-clone-nav d-none d-md-block p-0">
                 {{-- <li class="has-children active">
                     <a href="index.html">Home</a>
                     <ul class="dropdown">
@@ -68,8 +82,7 @@
                 </li> --}}
                 <li><a href="{{ route('web.home') }}">Home</a></li>
                 <li><a href="{{ route('web.shop') }}">Shop</a></li>
-                <li><a href="#">New Arrivals</a></li>
-                <li><a href="contact.html">Contact</a></li>
+
             </ul>
         </div>
     </nav>

@@ -22,7 +22,12 @@ class CheckoutController extends Controller
         if (!request('couser_id')) {
             return redirect()->back();
         }
-        $data = $this->course->getDataModelById(request('couser_id'), ['classRooms']);
+        $data = $this->course->getDataModelById(
+            request('couser_id'),
+            ['classRooms' => function ($q) {
+                return $q->where('status', 1);
+            }]
+        );
         if (is_null($data)) {
             return  redirect(404);
         }
@@ -40,5 +45,9 @@ class CheckoutController extends Controller
             }]
         )->calendars;
         return response()->json(['payload' => $classroom], 200);
+    }
+    public function getVocher(Request $request)
+    {
+        return response()->json($request->all(), 200);
     }
 }

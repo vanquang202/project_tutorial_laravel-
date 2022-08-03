@@ -1230,3 +1230,25 @@ a:hover {
 .loader-square:nth-of-type(7) {
     animation-delay: -10s;
 }
+
+.conten_oder {
+    padding: 0 30px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    color: #fff;
+}
+
+.conten_oder::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 200%;
+    left: -50%;
+    bottom: 0;
+    height: 100%;
+    background-color: #fff;
+    filter: blur(23px);
+}

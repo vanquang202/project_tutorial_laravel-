@@ -13,7 +13,6 @@ class Calendar extends Model implements ICrubModelInterface
     use HasFactory, Notifiable, CrubModel;
     protected $table = "calendars";
     protected $primaryKey = "id";
-    // public $fillable = [];
     protected $guarded = [];
 
     public function getPaginate($params = [],$with = [])

@@ -53,36 +53,74 @@
                 <div class="col-12 ">
                     <div class="card shadow-sm mt-2 p-2">
                         <h2>Thêm lịch học</h2>
-                        <x-form :dataForm="[
-                            [
-                                'label' => '',
-                                'type' => 'hidden',
-                                'name' => 'class_id',
-                                'value' => $classroom->id,
-                            ],
-                            [
-                                'label' => 'Ca học ',
-                                'type' => 'select',
-                                'name' => 'class_time_id',
-                                'options' => $class_time->toArray(),
-                            ],
-                            [
-                                'label' => 'Ngày học',
-                                'type' => 'date',
-                                'name' => 'date',
-                                'min' => $classroom->date_open,
-                            ],
-                            [
-                                'label' => 'Ghi chú lịch học ',
-                                'type' => 'textarea',
-                                'name' => 'detail',
-                            ],
-                        ]" :method="'POST'" :action="route('admin.calendar.store') . '?id=' . $classroom->id"></x-form>
+                        @php
+                            if ($calendar) {
+                                $method = 'PUT';
+                                $action = route('admin.calendar.update',['id'=>$calendar->id]) . '?classroom_id=' . $classroom->id;
+                                $dataCreate = [
+                                    [
+                                        'label' => '',
+                                        'type' => 'hidden',
+                                        'name' => 'class_id',
+                                        'value' => $classroom->id,
+                                    ],
+                                    [
+                                        'label' => 'Ca học ',
+                                        'type' => 'select',
+                                        'name' => 'class_time_id',
+                                        'options' => $class_time->toArray(),
+                                        'value' => $calendar->class_time_id,
+                                    ],
+                                    [
+                                        'label' => 'Ngày học',
+                                        'type' => 'date',
+                                        'name' => 'date',
+                                        'min' => $classroom->date_open,
+                                        'value' => $calendar->date,
+                                    ],
+                                    [
+                                        'label' => 'Ghi chú lịch học ',
+                                        'type' => 'textarea',
+                                        'name' => 'detail',
+                                        'value' => $calendar->detail,
+                                    ],
+                                ];
+                            } else {
+                                $method = 'POST';
+                                $action = route('admin.calendar.store') . '?classroom_id=' . $classroom->id;
+                                $dataCreate = [
+                                    [
+                                        'label' => '',
+                                        'type' => 'hidden',
+                                        'name' => 'class_id',
+                                        'value' => $classroom->id,
+                                    ],
+                                    [
+                                        'label' => 'Ca học ',
+                                        'type' => 'select',
+                                        'name' => 'class_time_id',
+                                        'options' => $class_time->toArray(),
+                                    ],
+                                    [
+                                        'label' => 'Ngày học',
+                                        'type' => 'date',
+                                        'name' => 'date',
+                                        'min' => $classroom->date_open,
+                                    ],
+                                    [
+                                        'label' => 'Ghi chú lịch học ',
+                                        'type' => 'textarea',
+                                        'name' => 'detail',
+                                    ],
+                                ];
+                            }
+                        @endphp
+                        <x-form :dataForm="$dataCreate" :method="$method" :action="$action"></x-form>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="card shadow-sm mt-2 p-2">
-                        <x-index :hidens="['create' => true, 'delete' => true]" :data="$calendars->toArray()" :route_create="'admin.classroom.create'" :route_update="'admin.classroom.edit'" :route_delete="'admin.classroom.destroy'">
+                        <x-index :hidens="['create' => true,]" :data="$calendars->toArray()" :route_create="'admin.classroom.create'" :route_update="['admin.classroom.show', ['id' => $classroom->id], 'calendar_id']" :route_delete="['admin.calendar.destroy',['classroom_id' => $classroom->id],'id']">
                         </x-index>
                         <div class="mt-10">
                             {{ $calendars->appends(request()->all())->links('pagination::bootstrap-4') }}
