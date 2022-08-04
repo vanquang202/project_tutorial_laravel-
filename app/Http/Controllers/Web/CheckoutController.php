@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\Course;
+use App\Models\Student;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -13,7 +15,9 @@ class CheckoutController extends Controller
     protected $compact = [];
     public function __construct(
         private Course $course,
-        private Classroom $classroom
+        private Classroom $classroom,
+        private Voucher $voucher,
+        private Student $student
     ) {
     }
     public function viewCheckout()
@@ -48,6 +52,20 @@ class CheckoutController extends Controller
     }
     public function getVocher(Request $request)
     {
-        return response()->json($request->all(), 200);
+        $voucher = $this->voucher->findVocher($request->code);
+        return response()->json($voucher, 200);
+    }
+    public function checkout(Request $request)
+    {
+        $code_bill = time() . rand(000001, 999999);
+        $this->student->storeDataModel([
+            'user_id' => $request->user_id,
+            'course_id' => $request->couser_id,
+            'class_id' => $request->class_id,
+            'price' => $request->priceCouser,
+            'code' => $code_bill,
+            'status' => 0
+        ]);
+        return response()->json(['payload' => route('web.thankyou')], 200);
     }
 }

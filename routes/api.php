@@ -18,3 +18,4 @@ Route::prefix('class')->group(function () {
     Route::post('', [CheckoutController::class, 'getCalendar'])->name('class.calendar');
 });
 Route::post('vocher', [CheckoutController::class, 'getVocher'])->name('checkout.vocher');
+Route::post('checkout', [CheckoutController::class, 'checkout'])->name('checkout.submit');

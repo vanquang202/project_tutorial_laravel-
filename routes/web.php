@@ -52,3 +52,7 @@ Route::prefix('couser')->group(function () {
 Route::prefix('checkout')->middleware(['auth'])->group(function () {
     Route::get('', [CheckoutController::class, 'viewCheckout'])->name('checkout.view');
 });
+
+Route::get('thankyou', function () {
+    return view('pages.web.thankyou');
+})->name('thankyou');

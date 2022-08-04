@@ -315,24 +315,29 @@
 
                                         <table class="table site-block-order-table mb-5">
 
-                                            <tbody id="result_total">
+                                            <tbody>
 
                                                 <tr>
                                                     <td>{{ $data->name }} </td>
-                                                    <td> {{ number_format($data->price, 0, ',', '.') }} đ</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-black font-weight-bold"><strong>Giảm giá</strong>
-                                                    </td>
-                                                    <td class="text-black">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-black font-weight-bold"><strong>Tổng</strong>
-                                                    </td>
-                                                    <td class="text-black font-weight-bold">
-                                                        <strong>{{ number_format($data->price, 0, ',', '.') }} đ</strong>
+                                                    <td id="price_couser"> {{ number_format($data->price, 0, ',', '.') }} đ
                                                     </td>
                                                 </tr>
+                                                <div id="result_total">
+                                                    <tr>
+                                                        <td class="text-black font-weight-bold"><strong>Giảm giá</strong>
+                                                        </td>
+                                                        <td class="text-black" id="val_vocher">0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-black font-weight-bold"><strong>Tổng</strong>
+                                                        </td>
+                                                        <td class="text-black font-weight-bold">
+                                                            <strong data-total="{{ $data->price }}" data-class_id="0"
+                                                                id="total">{{ number_format($data->price, 0, ',', '.') }}
+                                                                đ</strong>
+                                                        </td>
+                                                    </tr>
+                                                </div>
                                             </tbody>
                                         </table>
                                         {{-- <div class="border p-3 mb-3">
@@ -349,9 +354,10 @@
                                             </div>
                                         </div> --}}
 
-                                        <div class="form-group">
-                                            <button class="btn btn-primary btn-lg py-3 btn-block"
-                                                onclick="window.location='thankyou.html'">Thanh toán ngay</button>
+                                        <div class="form-group text-center">
+                                            <div id="paypal-button"></div>
+                                            {{-- <button class="btn btn-primary btn-lg py-3 btn-block"
+                                                onclick="window.location='thankyou.html'">Thanh toán ngay</button> --}}
                                         </div>
                                     </div>
 
@@ -368,25 +374,95 @@
 @endsection
 
 @section('js_web')
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script>
-        $(document).ready(function() {
-            $(document).on('change', '#c_classroom', function(e) {
-                e.preventDefault();
-                if ($(this).val() == 'null') {
-                    $('#calendars').empty();
-                    return;
+        var priceCouser = "{{ $data->price }}";
+        var couser_id = "{{ $data->id }}";
+        var user_id = "{{ auth()->user()->id }}"
+
+        function checkout() {
+            $.ajax({
+                type: "post",
+                url: "{{ route('checkout.submit') }}",
+                data: {
+                    user_id: user_id,
+                    priceCouser: priceCouser,
+                    couser_id: couser_id,
+                    class_id: $('#total').data('class_id')
+                },
+                success: function(res) {
+                    window.location.href = res.payload
                 }
+            });
+        }
+
+        function formatMoneyUsd(number) {
+            return number / 22878, 2
+        }
+        paypal.Button.render({
+            // Configure environment
+            env: 'sandbox',
+            client: {
+                sandbox: 'Aa3IsfpZbN3_UMPVaosZLAojFLXytHeGQ-cDEnmFZjfvcrPp4SnQi8dosZfM9AojTjNOE8iC_UEJfC2v',
+                production: 'AZXr1PpfocaLda0DeeqzyrKhr9d8bRviwgJnuNMWD8Vv6UnwrwA2e-zqEu_3aSudfk5xEkFGqvt8-UWz'
+            },
+            // Customize button (optional)
+            locale: 'en_US',
+            style: {
+                size: 'large',
+                color: 'gold',
+                shape: 'pill',
+            },
+
+            // Enable Pay Now checkout flow (optional)
+            commit: true,
+
+            // Set up a payment
+            payment: function(data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: formatMoneyUsd($('#total').data('total')),
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+            // Execute the payment
+            onAuthorize: function(data, actions) {
+                return actions.payment.execute().then(function() {
+                    // Show a confirmation message to the buyer
+                    checkout();
+                });
+            }
+        }, '#paypal-button');
+    </script>
+    <script>
+        function formatMoneny(param) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(param);
+
+        }
+        $(document).on('change', '#c_classroom', function(e) {
+
+            e.preventDefault();
+            if ($(this).val() == 'null') {
                 $('#calendars').empty();
-                $('#loading').show();
-                $.ajax({
-                    type: "post",
-                    url: "{{ route('class.calendar') }}",
-                    data: {
-                        id: $(this).val()
-                    },
-                    success: function(response) {
-                        var _html = ``;
-                        _html += ` <table class="table table-hover table-inverse">
+                return;
+            }
+            $('#calendars').empty();
+            $('#loading').show();
+            $.ajax({
+                type: "post",
+                url: "{{ route('class.calendar') }}",
+                data: {
+                    id: $(this).val()
+                },
+                success: function(response) {
+                    var _html = ``;
+                    _html += ` <table class="table table-hover table-inverse">
                                     <thead class="thead-inverse">
                                         <tr>
                                             <th>Ngày học </th>
@@ -395,43 +471,55 @@
                                         </tr>
                                     </thead>
                                     <tbody>`;
-                        response.payload.map(function(val) {
-                            _html += `
+                    response.payload.map(function(val) {
+                        _html += `
                                 <tr>
                                     <td scope="row">${val.date}</td>
                                     <td>${val.class_time.name}</td>
                                     <td>${val.class_time.opening_hour} - ${val.class_time.closing_time}</td>
                                 </tr>
                             `;
-                        });
-                        _html += `    </tbody>
+                    });
+                    _html += `    </tbody>
                                 </table>`;
-                        $('#calendars').empty();
-                        $('#loading').hide();
-                        $('#calendars').html(_html);
-                    }
-                });
-            });
-            $(document).on('click', '#button-addon2', function(e) {
-                e.preventDefault();
-                var code = $('#c_code').val();
-                if (code === '') {
-                    $('#helpId_c_code').text('Chưa nhập code !!');
-                    return;
+                    $('#calendars').empty();
+                    $('#loading').hide();
+                    $('#calendars').html(_html);
+                    $('#total').attr('data-class_id', $(this).val());
                 }
-                $.ajax({
-                    type: "post",
-                    url: "{{ route('checkout.vocher') }}",
-                    data: {
-                        code: code
-                    },
-                    success: function(res) {
-                        console.log(res);
-                    }
-                });
-
-
             });
+        });
+        $(document).on('click', '#button-addon2', function(e) {
+            e.preventDefault();
+            var code = $('#c_code').val();
+            if (code === '') {
+                $('#helpId_c_code').text('Chưa nhập code !!');
+                return;
+            }
+            $.ajax({
+                type: "post",
+                url: "{{ route('checkout.vocher') }}",
+                data: {
+                    code: code
+                },
+                success: function(res) {
+                    if (res) {
+                        if (res.status == 0) {
+                            $('#helpId_c_code').text('Mã vocher đã hết hạn !!');
+                            return;
+                        } else {
+                            $('#val_vocher').text(" - " + formatMoneny(res.value));
+                            $('#total').text(formatMoneny(priceCouser - res.value));
+                            $('#total').attr('data-total', priceCouser - res.value);
+                        }
+                    } else {
+                        $('#helpId_c_code').text('Không tồn tại mã vocher này !!');
+                        return;
+                    }
+                }
+            });
+
+
         });
     </script>
 @endsection
