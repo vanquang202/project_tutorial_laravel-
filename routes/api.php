@@ -7,9 +7,16 @@ use App\Http\Controllers\Web\CheckoutController;
 
 
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/users', function (Request $request) {
+    return $request->user();
+});
+Route::post("login",function () {
+    $arr = [];
+    $user = \App\Models\User::where('email',request()->email)->first();
+    $arr['token'] = $user->createToken('token')->accessToken;
+    $arr['user'] = $user;
+    return response()->json($arr);
+});
 
 Route::post('update-image-course/{id}', [CourseController::class, 'updateImageCourse']);
 Route::post('upload-image-course/{id}', [CourseController::class, 'uploadImageCourse']);

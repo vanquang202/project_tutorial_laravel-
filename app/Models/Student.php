@@ -36,4 +36,9 @@ class Student extends Model implements ICrubModelInterface
     {
         return $this->where('class_id', $class_id)->with(['user'])->get();
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class,'course_id');
+    }
 }

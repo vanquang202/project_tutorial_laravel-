@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\CourseController;
 use App\Http\Controllers\Web\CheckoutController;
 use App\Http\Controllers\Web\Auth\AuthController;
 use App\Http\Controllers\Web\CalendarController;
+use App\Http\Controllers\Web\HistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,10 +34,7 @@ Route::prefix('checkout')->middleware(['auth'])->group(function () {
     Route::get('', [CheckoutController::class, 'viewCheckout'])->name('checkout.view');
 });
 Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
+Route::get('history', [HistoryController::class, 'index'])->name('history.index');
 Route::get('thankyou', function () {
     return view('pages.web.thankyou');
-})->name('thankyou');
-
-Route::get('email', function () {
-    return view('mails.email');
 })->name('thankyou');

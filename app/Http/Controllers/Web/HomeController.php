@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function shop()
     {
         // dd(request());
-        $courses = $this->course->getDataListPaginate(['limit' => 6]);
+        $courses = $this->course->getDataListPaginate(['limit' => 6,'category_id' => request()->category_id ?? null]);
         $categorys = $this->category->getDataList([], ['cousers']);
         $this->compact['courses'] =  $courses;
         $this->compact['categorys'] =  $categorys;

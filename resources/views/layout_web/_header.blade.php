@@ -28,6 +28,7 @@
                                         {{ auth()->user()->name }}</button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
                                         <a class="dropdown-item" href="{{ route('web.calendar.index') }}">Lịch học </a>
+                                        <a class="dropdown-item" href="{{ route('web.history.index') }}">Lịch sử </a>
                                         <a class="dropdown-item" href="#">Đăng xuất</a>
                                     </div>
                                 </div>
@@ -47,6 +48,20 @@
             <ul class="site-menu js-clone-nav d-none d-md-block p-0">
 
                 <li><a href="{{ route('web.home') }}">Trang chủ </a></li>
+                <li>
+                    <a role="button" type="button" id="dropdownMenuReference" data-toggle="dropdown">
+                        Danh mục khóa học
+                    </a>
+                    <div style="width: 100px" role="button" class="dropdown-menu"
+                        aria-labelledby="dropdownMenuReference">
+
+                        @foreach (\Arr::categorys() as $category)
+                            <a class="dropdown-item"
+                                href="{{ route('web.shop', ['category_id' => $category['value']]) }}">{{ $category['label'] }}
+                            </a>
+                        @endforeach
+                    </div>
+                </li>
                 <li><a href="{{ route('web.shop') }}">Các khóa học </a></li>
 
             </ul>

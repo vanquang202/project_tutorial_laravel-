@@ -29,6 +29,7 @@ class Course extends Model implements ICrubModelInterface
     public function getDataList($params = [])
     {
         $query =  $this->where('status', 1)
+            ->orderBy("id","desc")
             ->limit($params['limit'] ?? null)
             ->get();
         return $query;
@@ -38,10 +39,13 @@ class Course extends Model implements ICrubModelInterface
     {
 
         $query =  $this->with([])
-            ->withCount(['classRooms','students','categorys'])
+            ->withCount(['classRooms','students','categorys']) ;
+        if($params['category_id']) $query->whereHas('categorys',function ($q) use ($params){
+            return $q->whereIn('category_id',[$params['category_id']]);
+        });
+        return $query
             ->orderBy('id','desc')
             ->paginate($params['limit'] ?? null);
-        return $query;
     }
     // public function whenWhereHasRelationship($value = null, $relation = null, $tableColumn = null)
     // {

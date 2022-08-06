@@ -64,17 +64,7 @@
                     </div>
                     <div class="row" data-aos="fade-up">
                         <div class="col-md-12 text-center">
-                            {{-- <div class="site-block-27">
-                                <ul>
-                                    <li><a href="#">&lt;</a></li>
-                                    <li class="active"><span>1</span></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">&gt;</a></li>
-                                </ul>
-                            </div> --}}
+
                             {{ $courses->appends(request()->all())->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
@@ -86,9 +76,9 @@
                         <ul class="list-unstyled mb-0">
                             @foreach ($categorys as $category)
                                 <li class="mb-1">
-                                    <a href="{{ route('web.shop', ['category' => $category->id]) }}" class="d-flex">
+                                    <a href="{{ route('web.shop', ['category_id' => $category->id]) }}" class="d-flex">
                                         <span>{{ $category->name }}</span>
-                                        <span class="text-black ml-auto">(2,220)</span>
+                                        <span class="text-black ml-auto">({{ count($category->cousers) }})</span>
                                     </a>
                                 </li>
                             @endforeach

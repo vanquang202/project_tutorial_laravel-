@@ -14,6 +14,7 @@ use App\Services\Repository\StudentR;
 use App\Services\Repository\StudentRI;
 use App\Services\Repository\VoucherR;
 use App\Services\Repository\VoucherRI;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 class AppServiceProvider extends ServiceProvider
@@ -38,10 +39,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(CategoryRI $category)
     {
         if (! $this->app->routesAreCached()) {
             Passport::routes();
         }
+        Arr::macro("categorys",function () use ($category) {
+            return $category->getAll();
+        });
     }
 }
