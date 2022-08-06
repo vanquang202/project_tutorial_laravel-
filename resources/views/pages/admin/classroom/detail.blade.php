@@ -46,6 +46,70 @@
                                 </div>
 
                             </div>
+                             <div class="col-6">
+
+                                <div class="card shadow-sm mt-2">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modelId">
+                                      Xem học viên
+                                    </button>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                    <div class="modal-header">
+                                                            <h5 class="modal-title">Modal title</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                <div class="modal-body">
+                                                    <div class="container-fluid">
+                                                       <table class="table table-hover table-inverse table-responsive">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th>Tên</th>
+                                                                <th>Email</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach ($student as $user )
+                                                                    
+                                                                <tr>
+                                                                   
+                                                                    <td>{{$user->user->name}}</td>
+                                                                    <td>{{$user->user->email}}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                               
+                                                            </tbody>
+                                                       </table>
+                                                       
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <script>
+                                        var modelId = document.getElementById('modelId');
+                                    
+                                        modelId.addEventListener('show.bs.modal', function (event) {
+                                              // Button that triggered the modal
+                                              let button = event.relatedTarget;
+                                              // Extract info from data-bs-* attributes
+                                              let recipient = button.getAttribute('data-bs-whatever');
+                                    
+                                            // Use above variables to manipulate the DOM
+                                        });
+                                    </script>
+                                    
+                                </div>
+
+                            </div>
                         </div>
 
                     </div>
@@ -115,11 +179,13 @@
                                 ];
                             }
                         @endphp
+                      
                         <x-form :dataForm="$dataCreate" :method="$method" :action="$action"></x-form>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="card shadow-sm mt-2 p-2">
+                          <h1>Danh sách lịch học</h1>
                         <x-index :hidens="['create' => true,]" :data="$calendars->toArray()" :route_create="'admin.classroom.create'" :route_update="['admin.classroom.show', ['id' => $classroom->id], 'calendar_id']" :route_delete="['admin.calendar.destroy',['classroom_id' => $classroom->id],'id']">
                         </x-index>
                         <div class="mt-10">

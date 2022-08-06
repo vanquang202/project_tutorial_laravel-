@@ -18,14 +18,22 @@ class Student extends Model implements ICrubModelInterface
     public function checkUserPayCardClassCourseExists($data)
     {
         return $this
-                ->where('user_id',$data['user_id'])
-                ->where('course_id',$data['course_id'])
-                ->where('class_id',$data['class_id'])
-                ->exists();
+            ->where('user_id', $data['user_id'])
+            ->where('course_id', $data['course_id'])
+            ->where('class_id', $data['class_id'])
+            ->exists();
     }
 
     public function class()
     {
-        return $this->belongsTo(Classroom::class,'class_id');
+        return $this->belongsTo(Classroom::class, 'class_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function classRoom($class_id)
+    {
+        return $this->where('class_id', $class_id)->with(['user'])->get();
     }
 }

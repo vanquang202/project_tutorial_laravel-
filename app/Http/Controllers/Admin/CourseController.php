@@ -18,8 +18,7 @@ class CourseController extends Controller implements IRuleInterface
     public function __construct(
         public CourseRI $model,
         public CategoryRI $category
-    )
-    {
+    ) {
         $this->views = [
             'router-list' => route('admin.course.index'),
             'list' => 'pages.admin.courses.index',
@@ -60,7 +59,7 @@ class CourseController extends Controller implements IRuleInterface
 
     public function getDataCreate()
     {
-        $data =[];
+        $data = [];
         $data['categorys'] = $this->category->getAll();
         return $data;
     }
@@ -74,11 +73,10 @@ class CourseController extends Controller implements IRuleInterface
 
     public function getDataEdit($id)
     {
-        $data =[];
+        $data = [];
         $data['categorys'] = $this->category->getAll();
-        $data['data'] = $this->model->getDataModelById($id,['categorys']);
-        $data['category'] = $data['data']->categorys->map(function ($q)
-        {
+        $data['data'] = $this->model->getDataModelById($id, ['categorys']);
+        $data['category'] = $data['data']->categorys->map(function ($q) {
             return $q->id;
         })->toArray();
         return $data;
@@ -86,7 +84,13 @@ class CourseController extends Controller implements IRuleInterface
 
     public function show($id)
     {
-        $course = $this->model->getDataModelById($id);
+        $course = $this->model->getDataModelById($id, ['classRooms' => function ($q) {
+            return $q->with([
+                'lecturer',
+                'students'
+            ]);
+        }]);
+        // dd($course);
         if (!$course) return redirect()->back()->with('error', 'Không thể xem chi tiết của khóa học này !');
         return view($this->views['detail'], ['course' => $course]);
     }
@@ -107,9 +111,9 @@ class CourseController extends Controller implements IRuleInterface
             "status" => false,
         ]);
         $imagesNew = [$nameImageNew];
-        $course = $this->model->updateApiImage($r,$id,$flagUpload,$imagesNew);
+        $course = $this->model->updateApiImage($r, $id, $flagUpload, $imagesNew);
 
-        if(!$course) {
+        if (!$course) {
             $this->unLinkImage($nameImageNew);
             return $this->responseApi([
                 "status" => false,
