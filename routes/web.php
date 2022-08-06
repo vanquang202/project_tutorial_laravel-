@@ -36,3 +36,7 @@ Route::get('calendar',[CalendarController::class,'index'])->name('calendar.index
 Route::get('thankyou', function () {
     return view('pages.web.thankyou');
 })->name('thankyou');
+
+Route::get('mail', function () {
+    return view('mails.email');
+});
