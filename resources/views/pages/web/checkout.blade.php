@@ -4,9 +4,8 @@
         <div class="bg-light py-3">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <a
-                            href="cart.html">Cart</a> <span class="mx-2 mb-0">/</span> <strong
-                            class="text-black">Checkout</strong></div>
+                    <div class="col-md-12 mb-0"><a href="/">Trang chủ </a> <span class="mx-2 mb-0">/</span> <a
+                            class="text-black">Trang thanh toán </strong></div>
                 </div>
             </div>
         </div>
@@ -315,31 +314,36 @@
 
                                         <table class="table site-block-order-table mb-5">
 
-                                            <tbody id="result_total">
+                                            <tbody>
 
                                                 <tr>
                                                     <td>{{ $data->name }} </td>
-                                                    <td> {{ number_format($data->price, 0, ',', '.') }} đ</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-black font-weight-bold"><strong>Giảm giá</strong>
-                                                    </td>
-                                                    <td class="text-black">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-black font-weight-bold"><strong>Tổng</strong>
-                                                    </td>
-                                                    <td class="text-black font-weight-bold">
-                                                        <strong>{{ number_format($data->price, 0, ',', '.') }} đ</strong>
+                                                    <td id="price_couser"> {{ number_format($data->price, 0, ',', '.') }} đ
                                                     </td>
                                                 </tr>
+                                                <div id="result_total">
+                                                    <tr>
+                                                        <td class="text-black font-weight-bold"><strong>Giảm giá</strong>
+                                                        </td>
+                                                        <td class="text-black" id="val_vocher">0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-black font-weight-bold"><strong>Tổng</strong>
+                                                        </td>
+                                                        <td class="text-black font-weight-bold">
+                                                            <strong data-total="{{ $data->price }}" data-class_id="0"
+                                                                id="total">{{ number_format($data->price, 0, ',', '.') }}
+                                                                đ</strong>
+                                                        </td>
+                                                    </tr>
+                                                </div>
                                             </tbody>
                                         </table>
                                         {{-- <div class="border p-3 mb-3">
                                             <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank"
                                                     role="button" aria-expanded="false" aria-controls="collapsebank">Direct
                                                     Bank Transfer</a></h3>
-    
+
                                             <div class="collapse" id="collapsebank">
                                                 <div class="py-2">
                                                     <p class="mb-0">Make your payment directly into our bank account.
@@ -349,9 +353,10 @@
                                             </div>
                                         </div> --}}
 
-                                        <div class="form-group">
-                                            <button class="btn btn-primary btn-lg py-3 btn-block"
-                                                onclick="window.location='thankyou.html'">Thanh toán ngay</button>
+                                        <div class="form-group text-center">
+                                            <div id="paypal-button"></div>
+                                            {{-- <button class="btn btn-primary btn-lg py-3 btn-block"
+                                                onclick="window.location='thankyou.html'">Thanh toán ngay</button> --}}
                                         </div>
                                     </div>
 
@@ -365,28 +370,138 @@
             </div>
         </div>
     </div>
+    <div id="show-card-loading"
+        style="position: fixed;
+        display:none;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: black;
+        z-index: 99;">
+        <div
+            style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        ">
+            Đang xử lý , vui lòng chờ </div>
+    </div>
 @endsection
 
 @section('js_web')
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script>
-        $(document).ready(function() {
-            $(document).on('change', '#c_classroom', function(e) {
-                e.preventDefault();
-                if ($(this).val() == 'null') {
-                    $('#calendars').empty();
-                    return;
+        var priceCouser = "{{ $data->price }}";
+        var couser_id = "{{ $data->id }}";
+        var user_id = "{{ auth()->user()->id }}"
+
+        function checkout() {
+            if ($('#total').data('class_id') == 0) {
+                alert('Vui lòng chọn lớp học !');
+                return false;
+            }
+            $('#show-card-loading').show();
+            $.ajax({
+                type: "post",
+                url: "{{ route('checkout.submit') }}",
+                data: {
+                    user_id: user_id,
+                    priceCouser: priceCouser,
+                    couser_id: couser_id,
+                    class_id: $('#total').data('class_id')
+                },
+                success: function(res) {
+                    if (res.status == true) {
+                        window.location.href = res.payload;
+                        return false;
+                    } else {
+                        $('#show-card-loading').hide();
+                        alert(res.message)
+                        location.reload();
+                    }
+                },
+                error: function(request, status, error) {
+                    $('#show-card-loading').hide();
+                    location.reload();
+                    alert("Đã xảy ra lỗi trong quá trình hoàn tất hóa đơn của bạn !");
                 }
+            });
+
+        }
+
+        function formatMoneyUsd(number) {
+            return number / 22878, 2
+        }
+        paypal.Button.render({
+            env: 'sandbox',
+            client: {
+                sandbox: 'Aa3IsfpZbN3_UMPVaosZLAojFLXytHeGQ-cDEnmFZjfvcrPp4SnQi8dosZfM9AojTjNOE8iC_UEJfC2v',
+                production: 'AZXr1PpfocaLda0DeeqzyrKhr9d8bRviwgJnuNMWD8Vv6UnwrwA2e-zqEu_3aSudfk5xEkFGqvt8-UWz'
+            },
+            locale: 'en_US',
+            style: {
+                size: 'large',
+                color: 'gold',
+                shape: 'pill',
+            },
+            commit: true,
+            payment: function(data, actions) {
+                if ($('#total').data('class_id') == 0) {
+                    alert('Vui lòng chọn lớp học !');
+                    return false;
+                }
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: '0.01',
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+            onAuthorize: function(data, actions) {
+                return actions.payment.execute().then(function() {
+                    checkout();
+                });
+            }
+        }, '#paypal-button');
+    </script>
+    <script>
+        function formatMoneny(param) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(param);
+
+        }
+        $(document).on('change', '#c_classroom', function(e) {
+
+            e.preventDefault();
+            if ($(this).val() == 'null') {
                 $('#calendars').empty();
-                $('#loading').show();
-                $.ajax({
-                    type: "post",
-                    url: "{{ route('class.calendar') }}",
-                    data: {
-                        id: $(this).val()
-                    },
-                    success: function(response) {
-                        var _html = ``;
-                        _html += ` <table class="table table-hover table-inverse">
+                return;
+            }
+            $('#calendars').empty();
+            $('#loading').show();
+            var that = this;
+            $.ajax({
+                type: "post",
+                url: "{{ route('class.calendar') }}",
+                data: {
+                    id: $(this).val()
+                },
+                success: function(response) {
+                    if (response.status == false) {
+                        alert(response.payload);
+                        $(that).val('null')
+                        $('#calendars').empty();
+                        $('#loading').hide();
+                        return false;
+                    }
+                    var _html = ``;
+                    _html += ` <table class="table table-hover table-inverse">
                                     <thead class="thead-inverse">
                                         <tr>
                                             <th>Ngày học </th>
@@ -395,43 +510,61 @@
                                         </tr>
                                     </thead>
                                     <tbody>`;
-                        response.payload.map(function(val) {
-                            _html += `
+                    response.payload.map(function(val) {
+                        _html += `
                                 <tr>
                                     <td scope="row">${val.date}</td>
                                     <td>${val.class_time.name}</td>
                                     <td>${val.class_time.opening_hour} - ${val.class_time.closing_time}</td>
                                 </tr>
                             `;
-                        });
-                        _html += `    </tbody>
+                    });
+                    _html += `    </tbody>
                                 </table>`;
-                        $('#calendars').empty();
-                        $('#loading').hide();
-                        $('#calendars').html(_html);
-                    }
-                });
-            });
-            $(document).on('click', '#button-addon2', function(e) {
-                e.preventDefault();
-                var code = $('#c_code').val();
-                if (code === '') {
-                    $('#helpId_c_code').text('Chưa nhập code !!');
-                    return;
+                    $('#calendars').empty();
+                    $('#loading').hide();
+                    $('#calendars').html(_html);
+
+                    $('#total').attr('data-class_id', $(that).val());
+                },
+                error: function(request, status, error) {
+                    alert("Không thể xem lớp học !");
+                    location.reload();
                 }
-                $.ajax({
-                    type: "post",
-                    url: "{{ route('checkout.vocher') }}",
-                    data: {
-                        code: code
-                    },
-                    success: function(res) {
-                        console.log(res);
+            });
+        });
+        $(document).on('click', '#button-addon2', function(e) {
+            e.preventDefault();
+            var code = $('#c_code').val();
+            if (code === '') {
+                $('#helpId_c_code').text('Chưa nhập code !!');
+                return;
+            }
+            $.ajax({
+                type: "post",
+                url: "{{ route('checkout.vocher') }}",
+                data: {
+                    code: code
+                },
+                success: function(res) {
+                    if (res) {
+                        if (res.status == 0) {
+                            $('#helpId_c_code').text('Mã vocher đã hết hạn !!');
+                            return;
+                        } else {
+                            $('#val_vocher').text(" - " + formatMoneny(res.value));
+                            $('#total').text(formatMoneny(priceCouser - res.value));
+                            $('#total').attr('data-total', priceCouser - res.value);
+                        }
+                    } else {
+                        $('#helpId_c_code').text('Không tồn tại mã vocher này !!');
+                        return;
                     }
-                });
-
+                },
 
             });
+
+
         });
     </script>
 @endsection

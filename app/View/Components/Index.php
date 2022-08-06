@@ -38,6 +38,8 @@ class Index extends Component
         'class_time' => 'name',
     ];
 
+    public $countRelationship = ['class_rooms_count','students_count','calendars_count','cousers_count','categorys_count'];
+
     public function render()
     {
         return view('components.index');

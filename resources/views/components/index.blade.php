@@ -103,25 +103,40 @@
 
                                 <br>
                                 @if (!isset($hidens['delete']))
-                                    @if (is_array($route_delete))
-                                        @php
-                                            if (isset($route_delete[2])) {
-                                                $dataRoute = array_merge($route_delete[1], [
-                                                    $route_delete[2] => $v['id'],
-                                                ]);
-                                            }
-                                        @endphp
-                                        <form action="{{ route($route_delete[0], $dataRoute) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route($route_delete, ['id' => $v['id']]) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
-                                        </form>
+                                    @php
+                                        $count = 0;
+                                    @endphp
+                                    @foreach ($countRelationship as $rela)
+                                        @if (isset($v[$rela]))
+                                            @if ($v[$rela] > 0)
+                                                @php
+                                                    $count = $count + 1;
+                                                @endphp
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                    @if ($count == 0)
+                                        @if (is_array($route_delete))
+                                            @php
+                                                if (isset($route_delete[2])) {
+                                                    $dataRoute = array_merge($route_delete[1], [
+                                                        $route_delete[2] => $v['id'],
+                                                    ]);
+                                                }
+                                            @endphp
+                                            <form action="{{ route($route_delete[0], $dataRoute) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route($route_delete, ['id' => $v['id']]) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
+                                            </form>
+                                        @endif
                                     @endif
                                 @endif
                             </td>

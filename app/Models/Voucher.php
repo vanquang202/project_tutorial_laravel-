@@ -20,5 +20,6 @@ class Voucher extends Model implements ICrubModelInterface
     }
     public function findVocher($code)
     {
+        return $this->where('code', $code)->first();
     }
 }

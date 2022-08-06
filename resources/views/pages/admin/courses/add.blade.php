@@ -35,6 +35,12 @@
                 'name' => 'status',
                 'options' => [['value' => 1, 'label' => 'Kích hoạt'], ['value' => 0, 'label' => 'Chưa kích hoạt']],
             ],
+            [
+                'label' => 'Danh mục',
+                'type' => 'selects',
+                'name' => 'categorys[]',
+                'options' => $categorys,
+            ],
         ]" :method="'POST'" :action="route('admin.course.store')"></x-form>
     </div>
 

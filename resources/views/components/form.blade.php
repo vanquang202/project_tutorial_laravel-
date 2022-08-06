@@ -13,7 +13,7 @@
                     <select name="{{ $data['name'] }}" class="form-control form-select-solid" data-control="select2"
                         data-placeholder="Vui lòng chọn !!" data-allow-clear="true" multiple="multiple">
                         @foreach ($data['options'] as $option)
-                            <option @selected(($data['value'] ?? -1) == $option['value']) value="{{ $option['value'] }}">{{ $option['label'] }}
+                            <option @selected(in_array($option['value'], $data['value'] ?? [])) value="{{ $option['value'] }}">{{ $option['label'] }}
                             </option>
                         @endforeach
                     </select>

@@ -88,6 +88,7 @@ class ClassroomController extends Controller implements IRuleInterface
     public function show($id)
     {
         $data = $this->model->show($id);
+
         if (!$data['classroom'] || !$data['calendars']) return redirect()->back()->with('error', 'Không thể xem chi tiết của lớp học này !');
         if ($data['classroom']->status == 0) return redirect()->back()->with('error', 'Lớp học này đang ở trạng thái khóa !');
         return view($this->views['detail'], $data);

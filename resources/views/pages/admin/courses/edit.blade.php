@@ -16,7 +16,7 @@
                 'name' => 'image',
                 'value' => $data->image,
             ],
-        
+
             [
                 'label' => 'Giá khóa học',
                 'type' => 'number',
@@ -34,6 +34,13 @@
                 'type' => 'select',
                 'name' => 'status',
                 'options' => [['value' => 1, 'label' => 'Kích hoạt'], ['value' => 0, 'label' => 'Chưa kích hoạt']],
+            ],
+            [
+                'label' => 'Danh mục',
+                'type' => 'selects',
+                'name' => 'categorys[]',
+                'options' => $categorys,
+                'value' => $category,
             ],
         ]" :method="'PUT'" :action="route('admin.course.update', ['id' => $data->id])"></x-form>
     </div>

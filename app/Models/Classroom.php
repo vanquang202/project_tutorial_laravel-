@@ -16,10 +16,18 @@ class Classroom extends Model
 
     public function getDataIndexList($params)
     {
-        return $this->with(['lecturer', 'course'])->paginate($params['limit'] ?? null);
+        return $this->with(['lecturer', 'course'])->withCount(['calendars'])->paginate($params['limit'] ?? null);
     }
 
-
+    public function getClassroom($id)
+    {
+        return $this
+            ->where('status', 1)
+            ->whereId($id)
+            ->with(['calendars' => function ($q) {
+                return $q->with(['class_time'])->orderBy("date", "asc");
+            }])->first();
+    }
 
     public function lecturer()
     {
@@ -34,5 +42,9 @@ class Classroom extends Model
     public function calendars()
     {
         return $this->hasMany(Calendar::class, 'class_id');
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'class_id')->with('user');
     }
 }
