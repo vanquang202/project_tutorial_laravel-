@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImageRequest;
 use App\Services\Interfaces\IRuleInterface;
+use App\Services\Repository\CategoryRI;
 use App\Services\Repository\CourseRI;
 use App\Services\Traits\Crub;
 use App\Services\Traits\ReponseApi;
@@ -14,7 +15,10 @@ class CourseController extends Controller implements IRuleInterface
 {
     use Crub, UploadImage, ReponseApi;
 
-    public function __construct(public CourseRI $model)
+    public function __construct(
+        public CourseRI $model,
+        public CategoryRI $category
+    )
     {
         $this->views = [
             'router-list' => route('admin.course.index'),
@@ -56,7 +60,9 @@ class CourseController extends Controller implements IRuleInterface
 
     public function getDataCreate()
     {
-        return [];
+        $data =[];
+        $data['categorys'] = $this->category->getAll();
+        return $data;
     }
 
     public function   getDataIndex()
@@ -68,8 +74,14 @@ class CourseController extends Controller implements IRuleInterface
 
     public function getDataEdit($id)
     {
-        $data = $this->model->getDataModelById($id);
-        return ['data' => $data];
+        $data =[];
+        $data['categorys'] = $this->category->getAll();
+        $data['data'] = $this->model->getDataModelById($id,['categorys']);
+        $data['category'] = $data['data']->categorys->map(function ($q)
+        {
+            return $q->id;
+        })->toArray();
+        return $data;
     }
 
     public function show($id)

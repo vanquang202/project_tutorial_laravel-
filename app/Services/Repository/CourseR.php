@@ -30,4 +30,9 @@ class CourseR implements CrubModelRI,CourseRI
         ]);
         return $course;
     }
+
+    public function syncCategorys($data,$categorys)
+    {
+        $data->categorys()->sync($categorys);
+    }
 }

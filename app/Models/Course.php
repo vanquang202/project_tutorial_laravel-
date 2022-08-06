@@ -28,14 +28,19 @@ class Course extends Model implements ICrubModelInterface
 
     public function getDataList($params = [])
     {
-        $query =  $this->where('status', 1)->limit($params['limit'] ?? null)->get();
+        $query =  $this->where('status', 1)
+            ->limit($params['limit'] ?? null)
+            ->get();
         return $query;
     }
 
     public function getDataListPaginate($params = [])
     {
 
-        $query =  $this->paginate($params['limit'] ?? null);
+        $query =  $this->with([])
+            ->withCount(['classRooms','students','categorys'])
+            ->orderBy('id','desc')
+            ->paginate($params['limit'] ?? null);
         return $query;
     }
     // public function whenWhereHasRelationship($value = null, $relation = null, $tableColumn = null)
@@ -50,6 +55,11 @@ class Course extends Model implements ICrubModelInterface
     public function classRooms()
     {
         return $this->hasMany(Classroom::class,  'course_id');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class,'course_id');
     }
 
     public function categorys()

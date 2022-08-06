@@ -12,4 +12,5 @@ class CalendarR implements CrubModelRI,CalendarRI
 
     public function __construct(public Calendar $model)
     {}
+
 }

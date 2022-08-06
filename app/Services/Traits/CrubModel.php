@@ -18,8 +18,8 @@ trait CrubModel
 
     public function updateDataModel($data)
     {
-        $model = $this->update($data);
-        return $model;
+        $this->update($data);
+        return $this;
     }
 
     public function destroyDataModel()

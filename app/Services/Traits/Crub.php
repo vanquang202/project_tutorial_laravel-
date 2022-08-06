@@ -75,9 +75,11 @@ trait Crub
     public function store(CrubRequest $request)
     {
         $data = $this->model->storeDataModel($request);
+
         if ($data == null) return $this->redirectErrorNullModel([
             'message' => 'Thêm mới thất bại !'
         ]);
+        if($request->has('categorys')) $this->model->syncCategorys($data,$request->categorys);
         return $this->redirectSuccessModel([
             'route' => 'router-list',
             'message' => 'Thêm mới thành công',
@@ -95,6 +97,7 @@ trait Crub
         if ($modelFindById == null) return $this->redirectErrorNullModel([
             'message' => 'Cập nhật thất bại !'
         ]);
+        if($request->has('categorys')) $this->model->syncCategorys($modelFindById,$request->categorys);
         return $this->redirectSuccessModel([
             'route' => 'router-list',
             'message' => 'Cập nhật thành công',

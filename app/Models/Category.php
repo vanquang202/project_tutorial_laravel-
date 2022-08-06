@@ -22,10 +22,12 @@ class Category extends Model implements ICrubModelInterface
     {
         return $this->with($with)->withCount($with)->get();
     }
+
     public function getDataListPaginate($params = [], $with = [])
     {
-        return $this->with($with)->paginate($params['limit'] ?? null);
+        return $this->with($with)->withCount(['cousers'])->paginate($params['limit'] ?? null);
     }
+
     public function cousers()
     {
         return $this->belongsToMany(Course::class, 'category_course', 'category_id', 'course_id');
