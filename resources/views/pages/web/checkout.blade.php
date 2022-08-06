@@ -396,7 +396,6 @@
         var priceCouser = "{{ $data->price }}";
         var couser_id = "{{ $data->id }}";
         var user_id = "{{ auth()->user()->id }}"
-        var class_id = 0;
 
         function checkout() {
             if ($('#total').data('class_id') == 0) {
@@ -449,7 +448,7 @@
             },
             commit: true,
             payment: function(data, actions) {
-                if (class_id == 0) {
+                if ($('#total').data('class_id') == 0) {
                     alert('Vui lòng chọn lớp học !');
                     return false;
                 }
@@ -478,7 +477,7 @@
 
         }
         $(document).on('change', '#c_classroom', function(e) {
-            $("#paypal-button").hide();
+
             e.preventDefault();
             if ($(this).val() == 'null') {
                 $('#calendars').empty();
@@ -527,8 +526,6 @@
                     $('#calendars').html(_html);
 
                     $('#total').attr('data-class_id', $(that).val());
-                    class_id = $(that).val();
-                    $("#paypal-button").show();
                 },
                 error: function(request, status, error) {
                     alert("Không thể xem lớp học !");
