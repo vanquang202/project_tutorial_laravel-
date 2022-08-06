@@ -32,7 +32,11 @@ Route::prefix('couser')->group(function () {
 Route::prefix('checkout')->middleware(['auth'])->group(function () {
     Route::get('', [CheckoutController::class, 'viewCheckout'])->name('checkout.view');
 });
-Route::get('calendar',[CalendarController::class,'index'])->name('calendar.index');
+Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
 Route::get('thankyou', function () {
     return view('pages.web.thankyou');
+})->name('thankyou');
+
+Route::get('email', function () {
+    return view('mails.email');
 })->name('thankyou');
