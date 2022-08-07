@@ -35,4 +35,13 @@ class CourseR implements CrubModelRI,CourseRI
     {
         $data->categorys()->sync($categorys);
     }
+
+    public function searchData($content)
+    {
+        return $this
+        ->model
+        ->where("name","like","%$content%")
+        ->orWhere("detail","like","%$content%")
+        ->get();
+    }
 }

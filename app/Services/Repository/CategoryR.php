@@ -14,4 +14,12 @@ class CategoryR implements CrubModelRI,CategoryRI
     {
         return $this->model->get(['id as value','name as label'])->toArray();
     }
+
+    public function searchData($content)
+    {
+        return $this
+        ->model
+        ->where("name","like","%$content%")
+        ->get();
+    }
 }
