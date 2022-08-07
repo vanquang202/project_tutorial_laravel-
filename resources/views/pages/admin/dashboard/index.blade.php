@@ -48,16 +48,7 @@
                 return radius;
             });
 
-            series.data.setAll([{
-                value: 10,
-                category: "Khóa học  "
-            }, {
-                value: 9,
-                category: "Lớp học "
-            }, {
-                value: 6,
-                category: "Voucher "
-            }, ]);
+            series.data.setAll(@json($course));
 
             // Create legend
             // https://www.amcharts.com/docs/v5/charts/percent-charts/legend-percent-series/
