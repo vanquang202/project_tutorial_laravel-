@@ -25,6 +25,11 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::get('redirect', [AuthController::class, 'redirect'])->name('login.redirect');
 Route::get('callback', [AuthController::class, 'callback'])->name('login.callback');
+Route::get('logout', function () {
+    auth()->logout();
+    return redirect()->route('web.home');
+})->name('logout');
+
 //Web
 Route::get('shop', [HomeController::class, 'shop'])->name('shop');
 Route::prefix('couser')->group(function () {

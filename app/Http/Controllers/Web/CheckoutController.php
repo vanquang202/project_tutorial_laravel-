@@ -53,23 +53,27 @@ class CheckoutController extends Controller
     {
         $dt = Carbon::now('Asia/Ho_Chi_Minh');
         $classroom = $this->classroom->getClassroom($request->id)->calendars;
-        if(strtotime($classroom[0]->date) <= strtotime($dt->toDateString())) return  $this->responseApi(['status' => false ,'payload' => "Lớp học đã bắt đầu ! Không thể tham gia "]);
-        return $this->responseApi(['status' => true ,'payload' => $classroom]);
+        if (strtotime($classroom[0]->date) <= strtotime($dt->toDateString())) return  $this->responseApi(['status' => false, 'payload' => "Lớp học đã bắt đầu ! Không thể tham gia "]);
+        return $this->responseApi(['status' => true, 'payload' => $classroom]);
     }
     public function getVocher(Request $request)
     {
         $voucher = $this->voucher->findVocher($request->code);
-        return response()->json($voucher, 200);
+        if ($voucher) {
+            return $this->responseApi(['status' => true, 'payload' =>  $voucher]);
+        } else {
+            return $this->responseApi(['status' => false, 'message' => 'Mã voucher không tồn tại !! ']);
+        }
     }
     public function checkout(Request $request)
     {
         try {
             $code_bill = time() . rand(000001, 999999);
-            if($this->student->checkUserPayCardClassCourseExists([
-                'user_id'=>$request->user_id,
+            if ($this->student->checkUserPayCardClassCourseExists([
+                'user_id' => $request->user_id,
                 'course_id' => $request->couser_id,
                 'class_id' => $request->class_id,
-            ])) return $this->responseApi(['status' => false,'message' => 'Bạn đã là học viên của lớp này! Vui lòng chọn lớp khác ']);
+            ])) return $this->responseApi(['status' => false, 'message' => 'Bạn đã là học viên của lớp này! Vui lòng chọn lớp khác ']);
 
             $student = $this->student->storeDataModel([
                 'user_id' => $request->user_id,
@@ -80,7 +84,7 @@ class CheckoutController extends Controller
                 'status' => 1
             ]);
 
-            if(!$student)  return $this->responseApi(['status' => false,'message' => 'Đã xảy ra lỗi với hóa đơn của bạn']);
+            if (!$student)  return $this->responseApi(['status' => false, 'message' => 'Đã xảy ra lỗi với hóa đơn của bạn']);
             $user = $this->user->getDataModelById($request->user_id);
             $this->mail::to($user->email)->send(new OrderCard([
                 'subject' => "Thanh toán hóa đơn $code_bill thành công !",
@@ -89,9 +93,9 @@ class CheckoutController extends Controller
                 "course" => $this->course->getDataModelById($request->couser_id),
                 "class" => $this->class->getDataModelById($request->class_id),
             ]));
-            return $this->responseApi(['status' => true,'payload' => route('web.thankyou')], 200);
+            return $this->responseApi(['status' => true, 'payload' => route('web.thankyou')], 200);
         } catch (\Throwable $th) {
-            return $this->responseApi(['status'=>false,'message' => "Không thể hoàn tất hóa đơn của bạn vui lòng liên hệ quản trị viên "],404);
+            return $this->responseApi(['status' => false, 'message' => "Không thể hoàn tất hóa đơn của bạn vui lòng liên hệ quản trị viên "], 404);
         }
     }
 }

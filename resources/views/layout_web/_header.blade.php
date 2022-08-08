@@ -44,7 +44,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
                                         <a class="dropdown-item" href="{{ route('web.calendar.index') }}">Lịch học </a>
                                         <a class="dropdown-item" href="{{ route('web.history.index') }}">Lịch sử </a>
-                                        <a class="dropdown-item" href="#">Đăng xuất</a>
+                                        <a class="dropdown-item" href="{{ route('web.logout') }}">Đăng xuất</a>
                                     </div>
                                 </div>
                             @else
