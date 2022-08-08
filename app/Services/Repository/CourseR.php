@@ -35,4 +35,23 @@ class CourseR implements CrubModelRI,CourseRI
     {
         $data->categorys()->sync($categorys);
     }
+
+    public function searchData($content)
+    {
+        return $this
+        ->model
+        ->where("name","like","%$content%")
+        ->orWhere("detail","like","%$content%")
+        ->get();
+    }
+
+    public function getAllDashboard()
+    {
+        return $this->model->withCount(['students'])->get()->map(function ($q) {
+            return [
+                "value" => $q->students_count,
+                "category" => $q->name
+            ];
+        });
+    }
 }
