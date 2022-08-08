@@ -30,7 +30,7 @@ Route::get('shop', [HomeController::class, 'shop'])->name('shop');
 Route::prefix('couser')->group(function () {
     Route::get('{id}', [CourseController::class, 'detailCouse'])->name('couser.detail');
 });
-Route::prefix('checkout')->middleware(['auth'])->group(function () {
+Route::prefix('checkout')->middleware(['auth_check'])->group(function () {
     Route::get('', [CheckoutController::class, 'viewCheckout'])->name('checkout.view');
 });
 Route::get('calendar', [CalendarController::class, 'index'])->name('calendar.index');
