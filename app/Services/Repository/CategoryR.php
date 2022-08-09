@@ -15,6 +15,11 @@ class CategoryR implements CrubModelRI,CategoryRI
         return $this->model->get(['id as value','name as label'])->toArray();
     }
 
+    public function getDataListPaginate($params = [], $with = [])
+    {
+         return $this->model->with($with)->withCount(['cousers'])->paginate($params['limit'] ?? null);
+    }
+
     public function searchData($content)
     {
         return $this

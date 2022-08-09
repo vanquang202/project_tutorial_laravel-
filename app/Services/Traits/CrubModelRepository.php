@@ -11,8 +11,8 @@ trait CrubModelRepository
     private function getDataRequest($data, $dataModelExitsByUpdate = null)
     {
         if (isset($data['image']) && isset($data['images'])) return $data = $this->getDataHasAllImage($data, $dataModelExitsByUpdate);
-        if (isset($data['images'])) return $data = $this->getDataHasImage($data, $dataModelExitsByUpdate);
-        if (isset($data['image'])) return $data = $this->getDataHasImages($data, $dataModelExitsByUpdate);
+        if (isset($data['image'])) return $data = $this->getDataHasImage($data, $dataModelExitsByUpdate);
+        if (isset($data['images'])) return $data = $this->getDataHasImages($data, $dataModelExitsByUpdate);
         return $data;
     }
 

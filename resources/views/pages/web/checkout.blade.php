@@ -432,6 +432,7 @@
         function formatMoneyUsd(number) {
             return number / 22878, 2
         }
+
         paypal.Button.render({
             env: 'sandbox',
             client: {
@@ -472,7 +473,6 @@
                 style: 'currency',
                 currency: 'VND'
             }).format(param);
-
         }
         $(document).on('change', '#c_classroom', function(e) {
 
@@ -531,8 +531,10 @@
                 }
             });
         });
+
         $(document).on('click', '#button-addon2', function(e) {
             e.preventDefault();
+            $('#helpId_c_code').text('');
             var code = $('#c_code').val();
             if (code === '') {
                 $('#helpId_c_code').text('Chưa nhập code !!');

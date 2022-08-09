@@ -40,7 +40,7 @@ class Course extends Model implements ICrubModelInterface
 
         $query =  $this->with([])
             ->withCount(['classRooms','students','categorys']) ;
-        if($params['category_id']) $query->whereHas('categorys',function ($q) use ($params){
+        if(isset($params['category_id'])) $query->whereHas('categorys',function ($q) use ($params){
             return $q->whereIn('category_id',[$params['category_id']]);
         });
         return $query

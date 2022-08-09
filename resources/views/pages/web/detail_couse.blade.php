@@ -30,11 +30,13 @@
                     </div>
                     <hr>
                     <div>
-                        @foreach (json_decode($data->images) as $img)
-                            <div style="width:100%" class=" mt-2 ">
-                                <img style="width:100%" src="{{ asset('images/' . $img) }}" alt="">
-                            </div>
-                        @endforeach
+                        @if ($data->images)
+                            @foreach (json_decode($data->images) as $img)
+                                <div style="width:100%" class=" mt-2 ">
+                                    <img style="width:100%" src="{{ asset('images/' . $img) }}" alt="">
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
