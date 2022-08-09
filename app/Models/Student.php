@@ -42,7 +42,6 @@ class Student extends Model implements ICrubModelInterface
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-
     public function getDataIndexList($params = [], $with = [])
     {
         return $this->with(count($with) == 0 ? [] : $with)->paginate($params['limit']);

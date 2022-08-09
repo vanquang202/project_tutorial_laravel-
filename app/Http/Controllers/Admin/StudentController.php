@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Services\Repository\StudentR;
+use App\Services\Repository\StudentRI;
 use App\Services\Traits\Crub;
 use App\Services\Traits\CrubModel;
 use Illuminate\Http\Request;
@@ -12,8 +13,9 @@ use Illuminate\Http\Request;
 class StudentController extends Controller
 {
     use Crub, CrubModel;
-    public function __construct(private StudentR $student, private Student $model)
+    public function __construct(private StudentRI $student )
     {
+        $this->model = $student;
         $this->views = [
             'router-list' => route('admin.student.index'),
             'list' => 'pages.admin.students.index',
@@ -57,21 +59,6 @@ class StudentController extends Controller
     public function getRules($method, $id)
     {
         $rule = [];
-        switch ($method):
-            case 'POST':
-                $rule = [
-                    'name' => 'required'
-                ];
-                break;
-            case 'PUT':
-                $rule = [
-                    'name' => 'required'
-                ];
-                break;
-            default:
-                break;
-        endswitch;
-
         return $rule;
     }
 }
