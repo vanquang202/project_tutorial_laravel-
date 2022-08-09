@@ -2,7 +2,7 @@
 @section('title', 'Danh sách tài khoản ')
 @section('page-title', 'Danh sách tài khoản ')
 @section('content')
-    <div>
+    <div class="card card-plush p-3">
         <input id="seach-ip" type="text" value="{{ request()->q ?? '' }}" class="form-control" placeholder="Tìm kiếm ">
         <table class="table table-row-bordered table-row-gray-300 gy-7  table-hover ">
             <thead>

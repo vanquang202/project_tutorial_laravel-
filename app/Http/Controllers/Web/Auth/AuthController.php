@@ -27,9 +27,4 @@ class AuthController extends Controller
     {
         return false;
     }
-
-    public function redirectLocal()
-    {
-        return redirect('/');
-    }
 }

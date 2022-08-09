@@ -64,4 +64,15 @@ trait Login
         }
         return redirect(route('admin.auth.login'))->withErrors(['error' => "Tài khoản chưa tồn tại !"]);
     }
+
+
+    public function redirectAdmin()
+    {
+        return redirect('/admin');
+    }
+
+    public function redirectLocal()
+    {
+        return redirect('/');
+    }
 }

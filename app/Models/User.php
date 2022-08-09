@@ -28,7 +28,7 @@ class User extends Authenticatable
     public function getDataList($params = [], $get = [])
     {
         if (count($get) > 0) {
-            $query =  $this->get($get)->take($params['limit'] ?? null);
+            $query =  $this::role('teacher')->get($get)->take($params['limit'] ?? null);
         } else {
             $query =  $this->get()->take($params['limit'] ?? null);
         }

@@ -27,8 +27,4 @@ class AuthController extends Controller
            return true;
     }
 
-    public function redirectAdmin()
-    {
-        return redirect('/dashboard');
-    }
 }
