@@ -5,9 +5,24 @@
 
                 <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                     <form action="" class="site-block-top-search">
-                        <div class=" d-flex justify-between align-items-center">
+                        <div style="position: relative;" class=" d-flex justify-between align-items-center">
                             <i class="bi bi-search"></i>
-                            <input type="text" class="form-control border-0" placeholder="Tìm kiếm ">
+                            <input id="search" type="text" class="form-control border-0" placeholder="Tìm kiếm ">
+                            <div id="show-search"
+                                style="
+                                position: absolute;
+                                background: blacck;
+                                background: white;
+                                padding: 5px;
+                                top: 1005;
+                                max-height: 500px;
+                                overflow: auto;
+                                left: 0;
+                                right: 0;
+                                z-index: 20;
+                                top: 100%;
+                            ">
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -29,7 +44,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
                                         <a class="dropdown-item" href="{{ route('web.calendar.index') }}">Lịch học </a>
                                         <a class="dropdown-item" href="{{ route('web.history.index') }}">Lịch sử </a>
-                                        <a class="dropdown-item" href="#">Đăng xuất</a>
+                                        <a class="dropdown-item" href="{{ route('web.logout') }}">Đăng xuất</a>
                                     </div>
                                 </div>
                             @else

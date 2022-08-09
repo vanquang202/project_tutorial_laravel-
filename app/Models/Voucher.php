@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\Interfaces\ICrubModelInterface;
 use App\Services\Traits\CrubModel;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,8 +19,10 @@ class Voucher extends Model implements ICrubModelInterface
     {
         return $this->paginate($params['limit']);
     }
+
     public function findVocher($code)
     {
-        return $this->where('code', $code)->first();
+        $dt = Carbon::now('Asia/Ho_Chi_Minh');
+        return $this->where('dealine','>',$dt->toDateTimeString())->where('code', $code)->first();
     }
 }

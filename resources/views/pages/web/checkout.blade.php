@@ -355,8 +355,7 @@
 
                                         <div class="form-group text-center">
                                             <div id="paypal-button"></div>
-                                            {{-- <button class="btn btn-primary btn-lg py-3 btn-block"
-                                                onclick="window.location='thankyou.html'">Thanh toán ngay</button> --}}
+
                                         </div>
                                     </div>
 
@@ -366,7 +365,6 @@
 
                     </div>
                 </div>
-                <!-- </form> -->
             </div>
         </div>
     </div>
@@ -434,6 +432,7 @@
         function formatMoneyUsd(number) {
             return number / 22878, 2
         }
+
         paypal.Button.render({
             env: 'sandbox',
             client: {
@@ -474,7 +473,6 @@
                 style: 'currency',
                 currency: 'VND'
             }).format(param);
-
         }
         $(document).on('change', '#c_classroom', function(e) {
 
@@ -533,8 +531,10 @@
                 }
             });
         });
+
         $(document).on('click', '#button-addon2', function(e) {
             e.preventDefault();
+            $('#helpId_c_code').text('');
             var code = $('#c_code').val();
             if (code === '') {
                 $('#helpId_c_code').text('Chưa nhập code !!');
@@ -547,19 +547,22 @@
                     code: code
                 },
                 success: function(res) {
-                    if (res) {
-                        if (res.status == 0) {
+                    if (res.status == true) {
+                        if (res.payload.status == 0) {
                             $('#helpId_c_code').text('Mã vocher đã hết hạn !!');
                             return;
                         } else {
-                            $('#val_vocher').text(" - " + formatMoneny(res.value));
-                            $('#total').text(formatMoneny(priceCouser - res.value));
-                            $('#total').attr('data-total', priceCouser - res.value);
+                            $('#val_vocher').text(" - " + formatMoneny(res.payload.value));
+                            $('#total').text(formatMoneny(priceCouser - res.payload.value));
+                            $('#total').attr('data-total', priceCouser - res.payload.value);
+                            $(this).prop('disabled', true);
+                            return
                         }
                     } else {
-                        $('#helpId_c_code').text('Không tồn tại mã vocher này !!');
+                        $('#helpId_c_code').text(res.message);
                         return;
                     }
+                    console.log(res);
                 },
 
             });

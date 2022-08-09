@@ -1,6 +1,6 @@
 @props(['data'])
 <div
-    style="background-image: url({{ asset('images/' . $data['image']) }});height: 370px; width: 100%; background-position: center; background-repeat: no-repeat;background-size: cover;">
+    style="background-image: url({{ asset('images/' . $data['image']) }});height: 270px; width: 100%; background-position: center; background-repeat: no-repeat;background-size: cover;">
 </div>
 <div class="block-4 p-4 text-center border">
     <h2

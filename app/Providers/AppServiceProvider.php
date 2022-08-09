@@ -12,6 +12,8 @@ use App\Services\Repository\CourseR;
 use App\Services\Repository\CourseRI;
 use App\Services\Repository\StudentR;
 use App\Services\Repository\StudentRI;
+use App\Services\Repository\UserR;
+use App\Services\Repository\UserRI;
 use App\Services\Repository\VoucherR;
 use App\Services\Repository\VoucherRI;
 use Illuminate\Support\Arr;
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CourseRI::class,CourseR::class);
         $this->app->bind(CategoryRI::class,CategoryR::class);
         $this->app->bind(StudentRI::class,StudentR::class);
+        $this->app->bind(UserRI::class,UserR::class);
     }
 
     /**

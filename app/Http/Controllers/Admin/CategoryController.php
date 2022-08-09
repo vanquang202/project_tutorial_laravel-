@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Services\Interfaces\IRuleInterface;
+use App\Services\Repository\CategoryR;
+use App\Services\Repository\CategoryRI;
 use App\Services\Traits\Crub;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,7 @@ class CategoryController extends Controller implements IRuleInterface
 {
     use Crub;
 
-    public function __construct(public Category $model)
+    public function __construct(public CategoryRI $model)
     {
         $this->views = [
             'router-list' => route('admin.category.index'),

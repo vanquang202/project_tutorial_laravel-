@@ -34,6 +34,16 @@
                             $dt = \Carbon\Carbon::parse($data['min']);
                         @endphp
                     @endif
+                    @if ($data['type'] == 'file' && isset($data['value']))
+                        @if (file_exists(public_path('images') . '/' . $data['value']))
+                            <img style="width:100%;max-height:400px" src="{{ asset('images/' . $data['value']) }}"
+                                alt="">
+                        @else
+                            <img style="width:100%;max-height:400px"
+                                src="https://redzonekickboxing.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
+                                alt="">
+                        @endif
+                    @endif
                     <input type="{{ $data['type'] }}"
                         min="{{ $data['type'] == 'date' && isset($data['min']) ? $dt->toDateString() : null }}"
                         value="{{ $data['value'] ?? old($data['name']) }}" name="{{ $data['name'] }}"
