@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\VoucherController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,13 @@ Route::prefix('classroom')->group(function () {
     Route::put('edit/{id}', [ClassroomController::class, 'update'])->name('classroom.update');
 });
 Route::prefix('student')->group(function () {
+    Route::get('', [StudentController::class, 'index'])->name('student.index');
+    // Route::get('show/{id}', [StudentController::class, 'show'])->name('student.show');
+    // Route::get('add', [StudentController::class, 'create'])->name('student.create');
+    // Route::post('add', [StudentController::class, 'store'])->name('student.store');
+    Route::delete('delete/{id}', [StudentController::class, 'destroy'])->name('student.destroy');
+    // Route::get('edit/{id}', [StudentController::class, 'edit'])->name('student.edit');
+    // Route::put('edit/{id}', [StudentController::class, 'update'])->name('student.update');
 });
 Route::prefix('calendar')->group(function () {
     Route::resource('', CalendarController::class, [
