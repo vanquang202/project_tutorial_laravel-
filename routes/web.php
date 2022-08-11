@@ -9,17 +9,6 @@ use App\Http\Controllers\Web\Auth\AuthController;
 use App\Http\Controllers\Web\CalendarController;
 use App\Http\Controllers\Web\HistoryController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::get('login', [AuthController::class, 'login'])->name('login')->middleware('guest');
