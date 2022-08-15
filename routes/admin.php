@@ -16,7 +16,7 @@ Route::get('login', [AuthController::class, 'login'])->name('auth.login');
 
 Route::get('redirect', [AuthController::class, 'redirect'])->name('login.redirect');
 
-Route::group(['middleware' => 'role_admin'],function () {
+Route::group(['middleware' => 'role_admin'], function () {
     Route::get('/', [DashboardController::class, 'index']);
 
     Route::prefix('course')->group(function () {
@@ -81,11 +81,12 @@ Route::group(['middleware' => 'role_admin'],function () {
 
     Route::prefix('student')->group(function () {
         Route::get('', [StudentController::class, 'index'])->name('student.index');
+        Route::get('print/{id}', [StudentController::class, 'print'])->name('student.print');
         Route::delete('delete/{id}', [StudentController::class, 'destroy'])->name('student.destroy');
     });
 
     Route::prefix('acount')->group(function () {
-        Route::get("",[AccountController::class,'index'])->name("list.account");
-        Route::get("change-role",[AccountController::class,'changeRole'])->name("change.role.account");
+        Route::get("", [AccountController::class, 'index'])->name("list.account");
+        Route::get("change-role", [AccountController::class, 'changeRole'])->name("change.role.account");
     });
 });

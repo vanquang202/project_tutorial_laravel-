@@ -15,7 +15,7 @@
                         <th>Lớp</th>
                         <th>Trạng thái thanh toán</th>
                         <th>Mã đơn đăng kí</th>
-                        <th></th>
+                        <th colspan="2">Thao tác </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,9 +27,9 @@
                             <td>{{ $student->class->name }}</td>
                             <td>
                                 @if ($student->status == 0)
-                                    <button type="button" class="btn btn-danger">Chưa thanh toán</button>
+                                    <p type="button" class="alert alert-danger">Chưa thanh toán</p>
                                 @else
-                                    <button type="button" class="btn btn-primary">Đã thanh toán</button>
+                                    <p type="button" class="alert alert-primary">Đã thanh toán</p>
                                 @endif
                             </td>
                             <td>{{ $student->code }}</td>
@@ -39,6 +39,11 @@
                                     @method('delete')
                                     <button type="submit" class="btn btn-warning  btn-sm">Xóa </button>
                                 </form>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.student.print', ['id' => $student->id]) }}"
+                                    class="btn btn-primary">In
+                                    hóa đơn </a>
                             </td>
                         </tr>
                     @endforeach

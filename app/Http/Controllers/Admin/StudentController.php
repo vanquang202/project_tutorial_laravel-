@@ -8,12 +8,13 @@ use App\Services\Repository\StudentR;
 use App\Services\Repository\StudentRI;
 use App\Services\Traits\Crub;
 use App\Services\Traits\CrubModel;
+use PDF;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     use Crub, CrubModel;
-    public function __construct(private StudentRI $student )
+    public function __construct(private StudentRI $student)
     {
         $this->model = $student;
         $this->views = [
@@ -50,10 +51,11 @@ class StudentController extends Controller
         return [];
     }
 
-    public function getDataEdit($id)
+    public function print($id)
     {
-        $category = $this->model->getDataModelById($id);
-        return ['category' => $category];
+        $student = $this->model->getDataModelById($id, ['class', 'course', 'user']);
+        $pdf = PDF::loadView('pages.admin.students.print', ['student' => $student]);
+        return $pdf->download('order_' . $student->code . '.pdf');
     }
 
     public function getRules($method, $id)
